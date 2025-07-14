@@ -1,1 +1,171 @@
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tab } from '@/components/ui/tabs';
+import { Select } from '@/components/ui/select';
+import { Table } from '@/components/ui/table';
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+// mock data import
+import data from '@/data/prbench_results.json';
+
+export default function PRBenchPage() {
+  const tabs = [
+    { label: 'Overview', key: 'overview' },
+    { label: 'Models & Data', key: 'models' },
+    { label: 'Training Methods', key: 'methods' },
+    { label: 'Metrics', key: 'metrics' },
+    { label: 'Results', key: 'results' },
+  ];
+  const [active, setActive] = useState(tabs[0].key);
+
+  // Filters
+  const [dataset, setDataset] = useState('CIFAR-10');
+  const [model, setModel] = useState('ResNet-18');
+  const [method, setMethod] = useState('ERM');
+
+  const unique = (arr, key) => [...new Set(arr.map(item => item[key]))];
+  const datasets = unique(data, 'dataset');
+  const models = unique(data.filter(d => d.dataset === dataset), 'model');
+  const methods = unique(data.filter(d => d.dataset === dataset && d.model === model), 'method');
+
+  const filtered = data.filter(d => d.dataset === dataset && d.model === model && d.method === method);
+
+  return (
+    <div className="p-6">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold">PRBench: Probabilistic Robustness Benchmark</h1>
+        <p className="mt-2 text-gray-600">Evaluating training methods for probabilistic robustness</p>
+        <Button asChild className="mt-4">
+          <a href="/files/Probabilistic Robustness for Free Revisiting Its Training with Benchmarking.pdf" download>Download Paper</a>
+        </Button>
+      </header>
+
+      <Tab value={active} onValueChange={setActive} className="mb-6">
+        {tabs.map(tab => <Tab.Trigger key={tab.key} value={tab.key}>{tab.label}</Tab.Trigger>)}
+      </Tab>
+
+      <section>
+        {active === 'overview' && (
+          <Card>
+            <CardContent>
+              <p>This benchmark aggregates clean accuracy, adversarial robustness, and probabilistic robustness metrics across popular datasets, models, and training methods.</p>
+              <ul className="list-disc list-inside mt-2">
+                <li>CIFAR-10/100, SVHN, TinyImageNet</li>
+                <li>ResNet, Wide-ResNet, ViT, DeiT</li>
+                <li>ERM, PGD-AT, TRADES, MART, PR-targeted methods</li>
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+        {active === 'models' && (
+          <Card>
+            <CardContent>
+              <h2 className="text-xl font-semibold mb-4">Models & Datasets</h2>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell>Dataset</Table.Cell>
+                    <Table.Cell>Model</Table.Cell>
+                    <Table.Cell>Architecture</Table.Cell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {data.map((d, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>{d.dataset}</Table.Cell>
+                      <Table.Cell>{d.model}</Table.Cell>
+                      <Table.Cell>{d.architecture}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+        {active === 'methods' && (
+          <Card>
+            <CardContent>
+              <h2 className="text-xl font-semibold mb-2">Training Methods</h2>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell>Method</Table.Cell>
+                    <Table.Cell>Description</Table.Cell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {unique(data, 'method').map((m, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>{m}</Table.Cell>
+                      <Table.Cell>{data.find(d => d.method === m).method_desc}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+        {active === 'metrics' && (
+          <Card>
+            <CardContent>
+              <h2 className="text-xl font-semibold mb-2">Evaluation Metrics</h2>
+              <ul className="list-disc list-inside">
+                <li>Clean Accuracy</li>
+                <li>Adversarial Robustness: PGD, C&W, AutoAttack</li>
+                <li>Probabilistic Robustness: PR(γ) curves, ProbAcc(ρ)</li>
+                <li>Generalization Error</li>
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+        {active === 'results' && (
+          <Card>
+            <CardContent>
+              <div className="flex space-x-4 mb-4">
+                <Select value={dataset} onValueChange={setDataset}>
+                  {datasets.map(ds => <Select.Item key={ds} value={ds}>{ds}</Select.Item>)}
+                </Select>
+                <Select value={model} onValueChange={setModel}>
+                  {models.map(mo => <Select.Item key={mo} value={mo}>{mo}</Select.Item>)}
+                </Select>
+                <Select value={method} onValueChange={setMethod}>
+                  {methods.map(me => <Select.Item key={me} value={me}>{me}</Select.Item>)}
+                </Select>
+              </div>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={filtered} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <XAxis dataKey="gamma" label={{ value: 'γ', position: 'insideBottomRight', offset: -5 }} />
+                  <YAxis label={{ value: 'PR(γ)', angle: -90, position: 'insideLeft' }} />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="pr_value" name="Prob. Robustness" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="adv_acc" name="Adversarial Acc" />
+                </LineChart>
+              </ResponsiveContainer>
+              <Table className="mt-6">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell>γ</Table.Cell>
+                    <Table.Cell>PR(γ)</Table.Cell>
+                    <Table.Cell>Adv. Acc</Table.Cell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {filtered.map((row, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>{row.gamma}</Table.Cell>
+                      <Table.Cell>{row.pr_value}</Table.Cell>
+                      <Table.Cell>{row.adv_acc}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+      </section>
+    </div>
+  );
+}
 
