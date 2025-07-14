@@ -15,11 +15,12 @@ export default function PRBenchPage() {
     { label: 'Models & Data', key: 'models' },
     { label: 'Training Methods', key: 'methods' },
     { label: 'Metrics', key: 'metrics' },
+    { label: 'Leaderboard', key: 'leaderboard' },
     { label: 'Results', key: 'results' },
   ];
   const [active, setActive] = useState(tabs[0].key);
 
-  // Filters
+  // Filters for results
   const [dataset, setDataset] = useState('CIFAR-10');
   const [model, setModel] = useState('ResNet-18');
   const [method, setMethod] = useState('ERM');
@@ -31,6 +32,16 @@ export default function PRBenchPage() {
 
   const filtered = data.filter(d => d.dataset === dataset && d.model === model && d.method === method);
 
+  // Leaderboard: top methods by clean acc or PR(γ) at default γ
+  const gamma0 = 0.1;
+  const leaderboardData = unique(data.filter(d => d.gamma === gamma0), 'method')
+    .map(m => {
+      const entry = data.find(d => d.method === m && d.gamma === gamma0 && d.dataset === dataset);
+      return { method: m, pr: entry?.pr_value || 0, adv: entry?.adv_acc || 0, clean: entry?.clean_acc || 0 };
+    })
+    .sort((a, b) => b.pr - a.pr)
+    .slice(0, 10);
+
   return (
     <div className="p-6">
       <header className="mb-8">
@@ -41,7 +52,7 @@ export default function PRBenchPage() {
         </Button>
       </header>
 
-      <Tab value={active} onValueChange={setActive} className="mb-6">
+      <Tab value={active} onValueChange={setActive} className="mb-6 grid grid-cols-3 gap-4">
         {tabs.map(tab => <Tab.Trigger key={tab.key} value={tab.key}>{tab.label}</Tab.Trigger>)}
       </Tab>
 
@@ -58,6 +69,7 @@ export default function PRBenchPage() {
             </CardContent>
           </Card>
         )}
+
         {active === 'models' && (
           <Card>
             <CardContent>
@@ -83,6 +95,7 @@ export default function PRBenchPage() {
             </CardContent>
           </Card>
         )}
+
         {active === 'methods' && (
           <Card>
             <CardContent>
@@ -106,6 +119,7 @@ export default function PRBenchPage() {
             </CardContent>
           </Card>
         )}
+
         {active === 'metrics' && (
           <Card>
             <CardContent>
@@ -119,17 +133,48 @@ export default function PRBenchPage() {
             </CardContent>
           </Card>
         )}
+
+        {active === 'leaderboard' && (
+          <Card>
+            <CardContent>
+              <h2 className="text-xl font-semibold mb-4">Leaderboard (γ = {gamma0})</h2>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell>Rank</Table.Cell>
+                    <Table.Cell>Method</Table.Cell>
+                    <Table.Cell>PR(γ)</Table.Cell>
+                    <Table.Cell>Adv. Acc</Table.Cell>
+                    <Table.Cell>Clean Acc</Table.Cell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {leaderboardData.map((row, i) => (
+                    <Table.Row key={i} className={i < 3 ? 'font-bold' : ''}>
+                      <Table.Cell>{i + 1}</Table.Cell>
+                      <Table.Cell>{row.method}</Table.Cell>
+                      <Table.Cell>{row.pr.toFixed(3)}</Table.Cell>
+                      <Table.Cell>{row.adv.toFixed(2)}</Table.Cell>
+                      <Table.Cell>{row.clean.toFixed(2)}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+
         {active === 'results' && (
           <Card>
             <CardContent>
               <div className="flex space-x-4 mb-4">
-                <Select value={dataset} onValueChange={setDataset}>
+                <Select value={dataset} onValueChange={setDataset} placeholder="Dataset">
                   {datasets.map(ds => <Select.Item key={ds} value={ds}>{ds}</Select.Item>)}
                 </Select>
-                <Select value={model} onValueChange={setModel}>
+                <Select value={model} onValueChange={setModel} placeholder="Model">
                   {models.map(mo => <Select.Item key={mo} value={mo}>{mo}</Select.Item>)}
                 </Select>
-                <Select value={method} onValueChange={setMethod}>
+                <Select value={method} onValueChange={setMethod} placeholder="Method">
                   {methods.map(me => <Select.Item key={me} value={me}>{me}</Select.Item>)}
                 </Select>
               </div>
@@ -139,7 +184,7 @@ export default function PRBenchPage() {
                   <YAxis label={{ value: 'PR(γ)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="pr_value" name="Prob. Robustness" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="pr_value" name="Prob. Robustness" />
                   <Line type="monotone" dataKey="adv_acc" name="Adversarial Acc" />
                 </LineChart>
               </ResponsiveContainer>
@@ -155,8 +200,8 @@ export default function PRBenchPage() {
                   {filtered.map((row, i) => (
                     <Table.Row key={i}>
                       <Table.Cell>{row.gamma}</Table.Cell>
-                      <Table.Cell>{row.pr_value}</Table.Cell>
-                      <Table.Cell>{row.adv_acc}</Table.Cell>
+                      <Table.Cell>{row.pr_value.toFixed(3)}</Table.Cell>
+                      <Table.Cell>{row.adv_acc.toFixed(2)}</Table.Cell>
                     </Table.Row>
                   ))}
                 </Table.Body>
