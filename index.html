@@ -4,11 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRBench Leaderboard</title>
-  <!-- 引入Bootstrap和DataTables -->
+  <!-- 引入Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+  <style>
+    /* 图片容器隐藏/显示 */
+    .leaderboard-image { display: none; }
+    .leaderboard-image.active { display: block; }
+    /* 按钮激活样式 */
+    .btn-group .btn.active { background-color: #0d6efd; color: #fff; }
+  </style>
 </head>
 <body>
+  <!-- 顶部导航 -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">PRBench</a>
@@ -18,64 +25,56 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
+            <a class="nav-link active" aria-current="page" href="#">Available Leaderboards</a>
           </li>
-          <!-- 可拓展其他页面链接 -->
         </ul>
       </div>
     </div>
   </nav>
 
   <div class="container mt-4">
-    <h1 class="mb-4">PRBench Leaderboard</h1>
-    <table id="leaderboard" class="table table-striped" style="width:100%">
-      <thead>
-        <tr>
-          <th>模型 (Model)</th>
-          <th>数据集 (Dataset)</th>
-          <th>训练方法 (Method)</th>
-          <th>干净准确率 (Acc.)</th>
-          <th>AR (PGD20)</th>
-          <th>PR (γ=0.03)</th>
-          <th>ProbAcc (ρ=0.01)</th>
-          <th>训练时间 (s/epoch)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 通过JavaScript动态渲染 -->
-      </tbody>
-    </table>
+    <h1 class="mb-4">Available Leaderboards</h1>
+    <!-- 数据集切换按钮 -->
+    <div class="btn-group mb-3" role="group" aria-label="Dataset buttons">
+      <button type="button" class="btn btn-outline-primary active" data-target="cifar10">CIFAR-10</button>
+      <button type="button" class="btn btn-outline-primary" data-target="cifar100">CIFAR-100</button>
+      <button type="button" class="btn btn-outline-primary" data-target="imagenet">ImageNet</button>
+      <!-- 根据需求添加更多按钮 -->
+    </div>
+
+    <!-- 图片展示区域 -->
+    <div id="leaderboard-images">
+      <div id="cifar10" class="leaderboard-image active">
+        <img src="images/cifar10_leaderboard.png" class="img-fluid" alt="CIFAR-10 Leaderboard">
+      </div>
+      <div id="cifar100" class="leaderboard-image">
+        <img src="images/cifar100_leaderboard.png" class="img-fluid" alt="CIFAR-100 Leaderboard">
+      </div>
+      <div id="imagenet" class="leaderboard-image">
+        <img src="images/imagenet_leaderboard.png" class="img-fluid" alt="ImageNet Leaderboard">
+      </div>
+      <!-- 根据需求添加更多图片 -->
+    </div>
   </div>
 
   <!-- 引入依赖脚本 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
   <script>
-    // 加载数据并初始化表格
-    fetch('data/prbench_data.json')
-      .then(response => response.json())
-      .then(data => {
-        $('#leaderboard').DataTable({
-          data: data,
-          columns: [
-            { data: 'model' },
-            { data: 'dataset' },
-            { data: 'method' },
-            { data: 'acc' },
-            { data: 'ar_pgd20' },
-            { data: 'pr_gamma_0_03' },
-            { data: 'probacc_rho_0_01' },
-            { data: 'time_per_epoch' }
-          ],
-          pageLength: 25,
-          order: [[5, 'desc']] // 默认按 PR 排序
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.btn-group .btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const target = this.getAttribute('data-target');
+          // 切换按钮样式
+          buttons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          // 显示对应图片，隐藏其他
+          document.querySelectorAll('.leaderboard-image').forEach(img => img.classList.remove('active'));
+          document.getElementById(target).classList.add('active');
         });
-      })
-      .catch(err => console.error('数据加载失败:', err));
+      });
+    });
   </script>
-
 </body>
 </html>
