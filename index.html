@@ -10,33 +10,49 @@
 <body>
   <!-- 顶部导航 -->
   <nav class="navbar">
-    <div class="container">
+    <div class="container d-flex justify-content-between align-items-center">
       <a class="navbar-brand" href="#">PRBench</a>
-      <div class="btn-group" role="group" aria-label="Dataset navigation">
-        <a href="#cifar10">CIFAR-10</a>
-        <a href="#cifar100">CIFAR-100</a>
-        <a href="#imagenet">ImageNet</a>
-      </div>
+      <ul class="navbar-nav d-flex flex-row">
+        <li class="nav-item"><a class="nav-link" href="#leaderboards">Leaderboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="paper.html">Paper</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contribute">Contribute</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/yourusername/PRBench" target="_blank">Code</a></li>
+      </ul>
     </div>
   </nav>
 
+  <!-- Leaderboards 部分 -->
   <div class="container" id="leaderboards">
     <h1>Available Leaderboards</h1>
-
+    <!-- 数据集按钮 -->
+    <div class="btn-group mb-4" role="group" aria-label="Dataset navigation">
+      <a href="#cifar10">CIFAR-10</a>
+      <a href="#cifar100">CIFAR-100</a>
+      <a href="#imagenet">ImageNet</a>
+    </div>
+    <!-- 顺序展示所有图片 -->
     <div class="dataset-image" id="cifar10">
       <h2>CIFAR-10 Leaderboard</h2>
       <img src="images/cifar10_leaderboard.png" alt="CIFAR-10 Leaderboard">
     </div>
-
     <div class="dataset-image" id="cifar100">
       <h2>CIFAR-100 Leaderboard</h2>
       <img src="images/cifar100_leaderboard.png" alt="CIFAR-100 Leaderboard">
     </div>
-
     <div class="dataset-image" id="imagenet">
       <h2>ImageNet Leaderboard</h2>
       <img src="images/imagenet_leaderboard.png" alt="ImageNet Leaderboard">
     </div>
+  </div>
+
+  <!-- Contribute 部分 -->
+  <div class="container" id="contribute">
+    <h1>Contribute</h1>
+    <p>欢迎为 PRBench 做出贡献！<br>
+       - 提交 Issue 或 Pull Request<br>
+       - 分享新的 Leaderboard 图像<br>
+       - 更新文档和示例
+    </p>
   </div>
 
   <!-- 引入外部 JS -->
