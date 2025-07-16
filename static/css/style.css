@@ -5,7 +5,11 @@
   --primary-color: #0071e3;
   --text-color: #1d1d1f;
 }
-*, *::before, *::after { box-sizing: border-box; }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -15,16 +19,20 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
+
 .container {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
+
 h1, h2 {
   font-weight: 600;
   margin-bottom: 1rem;
   text-align: center;
 }
+
+/* 导航栏样式 */
 nav {
   backdrop-filter: blur(20px);
   background: rgba(255,255,255,0.8);
@@ -33,10 +41,52 @@ nav {
   top: 0;
   z-index: 100;
 }
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .navbar-brand {
   font-size: 1.5rem;
   color: var(--primary-color) !important;
+  text-decoration: none;
 }
+
+.navbar .navbar-nav {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .nav-item {
+  margin: 0;
+}
+
+.navbar .nav-link {
+  display: block;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: var(--btn-bg);
+  color: var(--text-color);
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.navbar .nav-link:hover {
+  background: var(--card-bg);
+}
+
+/* 数据集按钮 */
+.btn-group {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
 .btn-group a {
   text-decoration: none;
   padding: 0.6rem 1.2rem;
@@ -49,25 +99,36 @@ nav {
   backdrop-filter: blur(10px);
   display: inline-block;
 }
+
 .btn-group a:hover {
   background: var(--card-bg);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
 .btn-group a:active {
   transform: translateY(0);
   box-shadow: none;
 }
+
+/* 图像卡片样式 */
 .dataset-image {
   background: var(--card-bg);
   border-radius: 20px;
   padding: 1.5rem;
-  margin-bottom: 2rem;
+  margin-top: 2.5rem;
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   scroll-margin-top: 100px;
 }
+
 .dataset-image img {
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Contribute 部分间距 */
+#contribute {
+  margin-top: 4rem;
+  padding-bottom: 4rem;
 }
