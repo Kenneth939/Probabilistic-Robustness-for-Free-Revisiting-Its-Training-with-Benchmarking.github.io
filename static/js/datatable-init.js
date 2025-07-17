@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     // 从 JSON 加载数据
     ajax: {
-      url: '/static/src/data/prbench_table8.json',
+      url: 'static/src/data/prbench_table8.json',
       dataSrc: ''
     },
 
