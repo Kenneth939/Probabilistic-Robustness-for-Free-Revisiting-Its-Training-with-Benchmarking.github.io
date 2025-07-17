@@ -34,7 +34,7 @@ $(document).ready(function() {
       {
         data: null,
         render: function(data, type, row) {
-          return data.pr_uniform['0.10'];
+          return data.pr_uniform['0.1'];
         }
       },
       {
@@ -60,7 +60,7 @@ $(document).ready(function() {
       {
         data: null,
         render: function(data, type, row) {
-          return data.pr_gaussian['0.10'];
+          return data.pr_gaussian['0.1'];
         }
       },
       {
@@ -86,7 +86,7 @@ $(document).ready(function() {
       {
         data: null,
         render: function(data, type, row) {
-          return data.pr_laplace['0.10'];
+          return data.pr_laplace['0.1'];
         }
       },
       {
