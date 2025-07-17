@@ -11,24 +11,25 @@ $(document).ready(function() {
       { data: 'model' },
       { data: 'method' },
       { data: 'acc' },
-      { data: 'pr_uniform', render: data => data['0.03'] },
-      { data: 'pr_uniform', render: data => data['0.08'] },
-      { data: 'pr_uniform', render: data => data['0.10'] },
-      { data: 'pr_uniform', render: data => data['0.12'] },
-      { data: 'pr_gaussian', render: data => data['0.03'] },
-      { data: 'pr_gaussian', render: data => data['0.08'] },
-      { data: 'pr_gaussian', render: data => data['0.10'] },
-      { data: 'pr_gaussian', render: data => data['0.12'] },
-      { data: 'pr_laplace', render: data => data['0.03'] },
-      { data: 'pr_laplace', render: data => data['0.08'] },
-      { data: 'pr_laplace', render: data => data['0.10'] },
-      { data: 'pr_laplace', render: data => data['0.12'] },
-      { data: 'ge', render: data => data.uni },
-      { data: 'ge', render: data => data.gau },
-      { data: 'ge', render: data => data.lap }
+      // Use full row and render nested values
+      { data: null, render: function(data, type, row) { return row.pr_uniform['0.03']; } },
+      { data: null, render: function(data, type, row) { return row.pr_uniform['0.08']; } },
+      { data: null, render: function(data, type, row) { return row.pr_uniform['0.10']; } },
+      { data: null, render: function(data, type, row) { return row.pr_uniform['0.12']; } },
+      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.03']; } },
+      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.08']; } },
+      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.10']; } },
+      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.12']; } },
+      { data: null, render: function(data, type, row) { return row.pr_laplace['0.03']; } },
+      { data: null, render: function(data, type, row) { return row.pr_laplace['0.08']; } },
+      { data: null, render: function(data, type, row) { return row.pr_laplace['0.10']; } },
+      { data: null, render: function(data, type, row) { return row.pr_laplace['0.12']; } },
+      { data: null, render: function(data, type, row) { return row.ge.uni; } },
+      { data: null, render: function(data, type, row) { return row.ge.gau; } },
+      { data: null, render: function(data, type, row) { return row.ge.lap; } }
     ],
     pageLength: 25,
-    order: [], // 保持输入顺序，不做初始排序
+    order: [], // 保持输入顺序
     initComplete: function() {
       this.api().columns([0,1,2]).every(function() {
         const column = this;
