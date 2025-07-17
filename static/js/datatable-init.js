@@ -11,22 +11,25 @@ $(document).ready(function() {
       { data: 'model' },
       { data: 'method' },
       { data: 'acc' },
-      // Use full row and render nested values
-      { data: null, render: function(data, type, row) { return row.pr_uniform['0.03']; } },
-      { data: null, render: function(data, type, row) { return row.pr_uniform['0.08']; } },
-      { data: null, render: function(data, type, row) { return row.pr_uniform['0.1']; } },
-      { data: null, render: function(data, type, row) { return row.pr_uniform['0.12']; } },
-      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.03']; } },
-      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.08']; } },
-      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.1']; } },
-      { data: null, render: function(data, type, row) { return row.pr_gaussian['0.12']; } },
-      { data: null, render: function(data, type, row) { return row.pr_laplace['0.03']; } },
-      { data: null, render: function(data, type, row) { return row.pr_laplace['0.08']; } },
-      { data: null, render: function(data, type, row) { return row.pr_laplace['0.1']; } },
-      { data: null, render: function(data, type, row) { return row.pr_laplace['0.12']; } },
-      { data: null, render: function(data, type, row) { return row.ge.uni; } },
-      { data: null, render: function(data, type, row) { return row.ge.gau; } },
-      { data: null, render: function(data, type, row) { return row.ge.lap; } }
+      // Uniform PR
+      { data: function(row) { return row.pr_uniform['0.03']; } },
+      { data: function(row) { return row.pr_uniform['0.08']; } },
+      { data: function(row) { return row.pr_uniform['0.1']; } },
+      { data: function(row) { return row.pr_uniform['0.12']; } },
+      // Gaussian PR
+      { data: function(row) { return row.pr_gaussian['0.03']; } },
+      { data: function(row) { return row.pr_gaussian['0.08']; } },
+      { data: function(row) { return row.pr_gaussian['0.1']; } },
+      { data: function(row) { return row.pr_gaussian['0.12']; } },
+      // Laplace PR
+      { data: function(row) { return row.pr_laplace['0.03']; } },
+      { data: function(row) { return row.pr_laplace['0.08']; } },
+      { data: function(row) { return row.pr_laplace['0.1']; } },
+      { data: function(row) { return row.pr_laplace['0.12']; } },
+      // Generalisation Error
+      { data: function(row) { return row.ge.uni; } },
+      { data: function(row) { return row.ge.gau; } },
+      { data: function(row) { return row.ge.lap; } }
     ],
     pageLength: 25,
     order: [], // 保持输入顺序
