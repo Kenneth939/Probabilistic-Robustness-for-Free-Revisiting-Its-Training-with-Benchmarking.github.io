@@ -47,37 +47,264 @@
   </div>
   
   <!-- Leaderboards -->
-  <div class="container" id="leaderboards">
+  <div class="container mt-5" id="leaderboards">
     <h1>Available Leaderboards</h1>
-    <!-- dataset buttons -->
-    <div class="btn-group mb-4" role="group" aria-label="Dataset navigation">
-      <a href="#cifar10">CIFAR-10</a>
-      <a href="#cifar100">CIFAR-100</a>
-      <a href="#svhn">SVHN</a>
-      <a href="#tiny">Tiny</a>
-      <a href="#mnist">MNIST</a>
+    <!-- 搜索栏 -->
+    <div class="mb-3">
+      <input type="text" id="tableSearch" placeholder="Search leaderboard..." style="width:100%; padding:0.5rem; border-radius:8px; border:1px solid #ccc;" />
     </div>
-    <!-- show all images in order -->
-    <div class="dataset-image" id="cifar10">
-      <h2>CIFAR-10 Leaderboard</h2>
-      <img src="images/cifar10_leaderboard.png" alt="CIFAR-10 Leaderboard">
+    <!-- 可检索表格 -->
+    <div class="table-responsive">
+      <table id="leaderboard-table" class="table" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Model</th>
+            <th>Method</th>
+            <th>Acc. %</th>
+            <th>PR<sub>Uni.</sub>(0.03)%</th>
+            <th>PR<sub>Uni.</sub>(0.08)%</th>
+            <th>PR<sub>Uni.</sub>(0.10)%</th>
+            <th>PR<sub>Uni.</sub>(0.12)%</th>
+            <th>PR<sub>Gau.</sub>(0.03)%</th>
+            <th>PR<sub>Gau.</sub>(0.08)%</th>
+            <th>PR<sub>Gau.</sub>(0.10)%</th>
+            <th>PR<sub>Gau.</sub>(0.12)%</th>
+            <th>PR<sub>Lap.</sub>(0.03)%</th>
+            <th>PR<sub>Lap.</sub>(0.08)%</th>
+            <th>PR<sub>Lap.</sub>(0.10)%</th>
+            <th>PR<sub>Lap.</sub>(0.12)%</th>
+            <th>GEPR<sub>Uni.</sub>%</th>
+            <th>GEPR<sub>Gau.</sub>%</th>
+            <th>GEPR<sub>Lap.</sub>%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table 8 数据行：CIFAR-10 VGG-19 -->
+          <tr>
+            <td>CIFAR-10</td>
+            <td>VGG-19</td>
+            <td>ERM</td>
+            <td>93.12</td>
+            <td>97.15</td>
+            <td>77.65</td>
+            <td>65.33</td>
+            <td>52.22</td>
+            <td>95.50</td>
+            <td>65.40</td>
+            <td>49.26</td>
+            <td>35.62</td>
+            <td>95.38</td>
+            <td>64.66</td>
+            <td>48.32</td>
+            <td>34.81</td>
+            <td>6.34</td>
+            <td>6.48</td>
+            <td>6.52</td>
+          </tr>
+          <tr>
+            <td>CIFAR-10</td>
+            <td>VGG-19</td>
+            <td>Corr_Uniform</td>
+            <td>92.94</td>
+            <td>98.87</td>
+            <td>89.38</td>
+            <td>79.27</td>
+            <td>67.10</td>
+            <td>98.33</td>
+            <td>79.38</td>
+            <td>63.87</td>
+            <td>48.29</td>
+            <td>98.30</td>
+            <td>78.67</td>
+            <td>62.93</td>
+            <td>47.34</td>
+            <td>5.51</td>
+            <td>5.82</td>
+            <td>5.87</td>
+          </tr>
+          <tr>
+            <td>CIFAR-10</td>
+            <td>VGG-19</td>
+            <td>Corr_Gaussian</td>
+            <td>92.18</td>
+            <td>99.26</td>
+            <td>95.34</td>
+            <td>90.44</td>
+            <td>82.66</td>
+            <td>99.05</td>
+            <td>90.56</td>
+            <td>80.40</td>
+            <td>66.89</td>
+            <td>99.02</td>
+            <td>90.19</td>
+            <td>79.66</td>
+            <td>65.84</td>
+            <td>6.85</td>
+            <td>6.72</td>
+            <td>6.69</td>
+          </tr>
+          <tr>
+            <td>CIFAR-10</td>
+            <td>VGG-19</td>
+            <td>Corr_Laplace</td>
+            <td>91.96</td>
+            <td>99.35</td>
+            <td>95.36</td>
+            <td>90.42</td>
+            <td>82.50</td>
+            <td>99.09</td>
+            <td>90.52</td>
+            <td>80.20</td>
+            <td>66.76</td>
+            <td>99.08</td>
+            <td>90.13</td>
+            <td>79.52</td>
+            <td>65.69</td>
+            <td>6.59</td>
+            <td>6.47</td>
+            <td>6.47</td>
+          </tr>
+          <tr>
+            <td>CIFAR-10</td>
+            <td>VGG-19</td>
+            <td>PGD</td>
+            <td>80.43</td>
+            <td>99.51</td>
+            <td>97.71</td>
+            <td>96.47</td>
+            <td>94.79</td>
+            <td>99.35</td>
+            <td>96.55</td>
+            <td>94.52</td>
+            <td>92.05</td>
+            <td>99.33</td>
+            <td>96.48</td>
+            <td>94.35</td>
+            <td>91.83</td>
+            <td>13.54</td>
+            <td>13.62</td>
+            <td>13.58</td>
+          </tr>
+          <!-- CIFAR-100 VGG-19 -->
+          <tr>
+            <td>CIFAR-100</td>
+            <td>VGG-19</td>
+            <td>ERM</td>
+            <td>73.86</td>
+            <td>88.61</td>
+            <td>50.86</td>
+            <td>38.37</td>
+            <td>29.06</td>
+            <td>83.48</td>
+            <td>38.47</td>
+            <td>27.50</td>
+            <td>20.37</td>
+            <td>83.16</td>
+            <td>37.79</td>
+            <td>27.02</td>
+            <td>20.00</td>
+            <td>25.33</td>
+            <td>22.79</td>
+            <td>22.62</td>
+          </tr>
+          <tr>
+            <td>CIFAR-100</td>
+            <td>VGG-19</td>
+            <td>Corr_Uniform</td>
+            <td>71.88</td>
+            <td>96.85</td>
+            <td>72.26</td>
+            <td>58.22</td>
+            <td>45.13</td>
+            <td>95.05</td>
+            <td>58.29</td>
+            <td>42.45</td>
+            <td>30.25</td>
+            <td>94.93</td>
+            <td>57.51</td>
+            <td>41.59</td>
+            <td>29.50</td>
+            <td>27.18</td>
+            <td>27.23</td>
+            <td>27.12</td>
+          </tr>
+          <tr>
+            <td>CIFAR-100</td>
+            <td>VGG-19</td>
+            <td>Corr_Gaussian</td>
+            <td>69.85</td>
+            <td>98.06</td>
+            <td>86.84</td>
+            <td>75.43</td>
+            <td>61.44</td>
+            <td>97.42</td>
+            <td>75.55</td>
+            <td>58.33</td>
+            <td>42.13</td>
+            <td>97.39</td>
+            <td>74.80</td>
+            <td>57.30</td>
+            <td>41.00</td>
+            <td>29.00</td>
+            <td>29.01</td>
+            <td>28.97</td>
+          </tr>
+          <tr>
+            <td>CIFAR-100</td>
+            <td>VGG-19</td>
+            <td>Corr_Laplace</td>
+            <td>70.08</td>
+            <td>98.08</td>
+            <td>86.50</td>
+            <td>74.21</td>
+            <td>60.48</td>
+            <td>97.38</td>
+            <td>74.44</td>
+            <td>57.34</td>
+            <td>41.98</td>
+            <td>97.33</td>
+            <td>73.71</td>
+            <td>56.32</td>
+            <td>41.06</td>
+            <td>28.45</td>
+            <td>28.58</td>
+            <td>28.62</td>
+          </tr>
+          <tr>
+            <td>CIFAR-100</td>
+            <td>VGG-19</td>
+            <td>PGD</td>
+            <td>48.76</td>
+            <td>99.34</td>
+            <td>96.43</td>
+            <td>94.40</td>
+            <td>91.63</td>
+            <td>99.07</td>
+            <td>94.54</td>
+            <td>91.04</td>
+            <td>86.48</td>
+            <td>99.04</td>
+            <td>94.38</td>
+            <td>90.81</td>
+            <td>86.08</td>
+            <td>15.64</td>
+            <td>15.58</td>
+            <td>15.56</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="dataset-image" id="cifar100">
-      <h2>CIFAR-100 Leaderboard</h2>
-      <img src="images/cifar100_leaderboard.png" alt="CIFAR-100 Leaderboard">
-    </div>
-    <div class="dataset-image" id="svhn">
-      <h2>SVHN Leaderboard</h2>
-      <img src="images/svhn_leaderboard.png" alt="SVHN Leaderboard">
-    </div>
-    <div class="dataset-image" id="tiny">
-      <h2>Tiny Leaderboard</h2>
-      <img src="images/tiny_leaderboard.png" alt="Tiny Leaderboard">
-    </div>
-      <div class="dataset-image" id="mnist">
-      <h2>MNIST Leaderboard</h2>
-      <img src="images/mnist_leaderboard.png" alt="MNIST Leaderboard">
-    </div>
+    <script>
+      // 简单表格搜索功能
+      document.getElementById('tableSearch').addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#leaderboard-table tbody tr');
+        rows.forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+        });
+      });
+    </script>
   </div>
 
   <!-- Contribute -->
