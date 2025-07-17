@@ -46,31 +46,39 @@
     </div>
   </div>
   
-  <!-- Leaderboards -->
-   <div class="container mt-5" id="leaderboards">
+   <!-- Available Leaderboards -->
+  <div class="container mt-5" id="leaderboards">
     <h1>Available Leaderboards</h1>
-    <!-- 过滤控件 -->
+    <!-- 外部筛选控件 -->
     <div class="row g-3 mb-4">
       <div class="col-md-4">
-        <label for="datasetSelect" class="form-label">Dataset</label>
-        <select id="datasetSelect" class="form-select">
-          <option value="All">All</option>
+        <label for="datasetFilter" class="form-label">Dataset</label>
+        <select id="datasetFilter" class="form-select">
+          <option value="">All</option>
           <option value="CIFAR-10">CIFAR-10</option>
           <option value="CIFAR-100">CIFAR-100</option>
+          <option value="SVHN">SVHN</option>
+          <option value="MNIST">MNIST</option>
         </select>
       </div>
       <div class="col-md-4">
-        <label for="modelSelect" class="form-label">Model</label>
-        <select id="modelSelect" class="form-select">
-          <option value="All">All</option>
+        <label for="modelFilter" class="form-label">Model</label>
+        <select id="modelFilter" class="form-select">
+          <option value="">All</option>
           <option value="VGG-19">VGG-19</option>
           <option value="ResNet-18">ResNet-18</option>
+          <option value="WRN-28-10">WRN-28-10</option>
+          <option value="DeiT-T">DeiT-T</option>
+          <option value="DeiT-S">DeiT-S</option>
+          <option value="ViT-S">ViT-S</option>
+          <option value="ViT-B">ViT-B</option>
+          <option value="Simple-CNN">Simple-CNN</option>
         </select>
       </div>
       <div class="col-md-4">
-        <label for="methodSelect" class="form-label">Method</label>
-        <select id="methodSelect" class="form-select">
-          <option value="All">All</option>
+        <label for="methodFilter" class="form-label">Method</label>
+        <select id="methodFilter" class="form-select">
+          <option value="">All</option>
           <option value="ERM">ERM</option>
           <option value="Corr_Uniform">Corr_Uniform</option>
           <option value="Corr_Gaussian">Corr_Gaussian</option>
@@ -79,60 +87,34 @@
         </select>
       </div>
     </div>
-    <!-- 可检索表格 -->
-    <div class="table-responsive">
-      <table id="leaderboard-table" class="table align-middle" style="width:100%;">
-        <thead>
-          <tr>
-            <th>Dataset</th>
-            <th>Model</th>
-            <th>Method</th>
-            <th>Acc.&nbsp;%</th>
-            <th>PR<sub>Uni.</sub>(0.03)%</th>
-            <th>PR<sub>Uni.</sub>(0.08)%</th>
-            <th>PR<sub>Uni.</sub>(0.10)%</th>
-            <th>PR<sub>Uni.</sub>(0.12)%</th>
-            <th>PR<sub>Gau.</sub>(0.03)%</th>
-            <th>PR<sub>Gau.</sub>(0.08)%</th>
-            <th>PR<sub>Gau.</sub>(0.10)%</th>
-            <th>PR<sub>Gau.</sub>(0.12)%</th>
-            <th>PR<sub>Lap.</sub>(0.03)%</th>
-            <th>PR<sub>Lap.</sub>(0.08)%</th>
-            <th>PR<sub>Lap.</sub>(0.10)%</th>
-            <th>PR<sub>Lap.</sub>(0.12)%</th>
-            <th>GEPR<sub>Uni.</sub>%</th>
-            <th>GEPR<sub>Gau.</sub>%</th>
-            <th>GEPR<sub>Lap.</sub>%</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- 完整 Table 8 数据行 -->
-          <tr><td>CIFAR-10</td><td>VGG-19</td><td>ERM</td><td>93.12</td><td>97.15</td><td>77.65</td><td>65.33</td><td>52.22</td><td>95.50</td><td>65.40</td><td>49.26</td><td>35.62</td><td>95.38</td><td>64.66</td><td>48.32</td><td>34.81</td><td>6.34</td><td>6.48</td><td>6.52</td></tr>
-          <tr><td>CIFAR-10</td><td>VGG-19</td><td>Corr_Uniform</td><td>92.94</td><td>98.87</td><td>89.38</td><td>79.27</td><td>67.10</td><td>98.33</td><td>79.38</td><td>63.87</td><td>48.29</td><td>98.30</td><td>78.67</td><td>62.93</td><td>47.34</td><td>5.51</td><td>5.82</td><td>5.87</td></tr>
-          <tr><td>CIFAR-10</td><td>VGG-19</td><td>Corr_Gaussian</td><td>92.18</td><td>99.26</td><td>95.34</td><td>90.44</td><td>82.66</td><td>99.05</td><td>90.56</td><td>80.40</td><td>66.89</td><td>99.02</td><td>90.19</td><td>79.66</td><td>65.84</td><td>6.85</td><td>6.72</td><td>6.69</td></tr>
-          <tr><td>CIFAR-10</td><td>VGG-19</td><td>Corr_Laplace</td><td>91.96</td><td>99.35</td><td>95.36</td><td>90.42</td><td>82.50</td><td>99.09</td><td>90.52</td><td>80.20</td><td>66.76</td><td>99.08</td><td>90.13</td><td>79.52</td><td>65.69</td><td>6.59</td><td>6.47</td><td>6.47</td></tr>
-          <tr><td>CIFAR-10</td><td>VGG-19</td><td>PGD</td><td>80.43</td><td>99.51</td><td>97.71</td><td>96.47</td><td>94.79</td><td>99.35</td><td>96.55</td><td>94.52</td><td>92.05</td><td>99.33</td><td>96.48</td><td>94.35</td><td>91.83</td><td>13.54</td><td>13.62</td><td>13.58</td></tr>
-          <tr><td>CIFAR-10</td><td>ResNet-18</td><td>ERM</td><td>94.85</td><td>97.64</td><td>76.19</td><td>61.65</td><td>47.07</td><td>96.16</td><td>61.88</td><td>44.20</td><td>30.60</td><td>96.04</td><td>60.98</td><td>43.24</td><td>29.79</td><td>6.24</td><td>6.36</td><td>6.30</td></tr>
-          <tr><td>CIFAR-10</td><td>ResNet-18</td><td>Corr_Uniform</td><td>94.17</td><td>99.12</td><td>90.92</td><td>82.32</td><td>70.48</td><td>98.69</td><td>82.46</td><td>67.40</td><td>49.32</td><td>98.67</td><td>81.85</td><td>66.29</td><td>48.09</td><td>4.83</td><td>5.03</td><td>5.05</td></tr>
-          <tr><td>CIFAR-10</td><td>ResNet-18</td><td>Corr_Gaussian</td><td>???</td></tr> <!-- Continue rows for ResNet-18 from Table 8 -->
-        </tbody>
-      </table>
-    </div>
-    <script>
-      const filters = ['datasetSelect','modelSelect','methodSelect'];
-      filters.forEach(id => document.getElementById(id).addEventListener('change', () => {
-        const ds = document.getElementById('datasetSelect').value;
-        const md = document.getElementById('modelSelect').value;
-        const mt = document.getElementById('methodSelect').value;
-        document.querySelectorAll('#leaderboard-table tbody tr').forEach(row => {
-          const c = row.children;
-          const show = (ds==='All'||c[0].textContent===ds) &&
-                       (md==='All'||c[1].textContent===md) &&
-                       (mt==='All'||c[2].textContent===mt);
-          row.style.display = show ? '' : 'none';
-        });
-      }));
-    </script>
+    <table id="leaderboard-table"
+           class="table table-striped table-bordered"
+           style="width:100%">
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>Model</th>
+          <th>Method</th>
+          <th>Acc. %</th>
+          <th>PR<sub>Uni.</sub>(0.03)%</th>
+          <th>PR<sub>Uni.</sub>(0.08)%</th>
+          <th>PR<sub>Uni.</sub>(0.10)%</th>
+          <th>PR<sub>Uni.</sub>(0.12)%</th>
+          <th>PR<sub>Gau.</sub>(0.03)%</th>
+          <th>PR<sub>Gau.</sub>(0.08)%</th>
+          <th>PR<sub>Gau.</sub>(0.10)%</th>
+          <th>PR<sub>Gau.</sub>(0.12)%</th>
+          <th>PR<sub>Lap.</sub>(0.03)%</th>
+          <th>PR<sub>Lap.</sub>(0.08)%</th>
+          <th>PR<sub>Lap.</sub>(0.10)%</th>
+          <th>PR<sub>Lap.</sub>(0.12)%</th>
+          <th>GEPR<sub>Uni.</sub>%</th>
+          <th>GEPR<sub>Gau.</sub>%</th>
+          <th>GEPR<sub>Lap.</sub>%</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
 
