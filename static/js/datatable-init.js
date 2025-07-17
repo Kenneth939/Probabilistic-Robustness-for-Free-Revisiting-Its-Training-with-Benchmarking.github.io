@@ -23,7 +23,7 @@ $(document).ready(function() {
       },
       {
         data: null,
-        render: function(row) { return row.pr_uniform['0.10']; }
+        render: function(row) { return row.pr_uniform['0.1']; }
       },
       {
         data: null,
@@ -40,7 +40,7 @@ $(document).ready(function() {
       },
       {
         data: null,
-        render: function(row) { return row.pr_gaussian['0.10']; }
+        render: function(row) { return row.pr_gaussian['0.1']; }
       },
       {
         data: null,
@@ -57,7 +57,7 @@ $(document).ready(function() {
       },
       {
         data: null,
-        render: function(row) { return row.pr_laplace['0.10']; }
+        render: function(row) { return row.pr_laplace['0.1']; }
       },
       {
         data: null,
