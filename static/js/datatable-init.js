@@ -1,7 +1,7 @@
 $(document).ready(function() {
   const table = $('#leaderboard-table').DataTable({
     ajax: {
-      url: 'static/data/prbench_table8.json',
+      url: 'static/src/data/prbench_table8.json',
       dataSrc: ''
     },
     columns: [
