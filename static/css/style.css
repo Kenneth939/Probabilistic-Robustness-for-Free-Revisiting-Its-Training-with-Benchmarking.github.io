@@ -26,13 +26,13 @@ body {
   padding: 2rem 1rem;
 }
 
-h1, h2 {
+h1, h2, h3 {
   font-weight: 600;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-/* 导航栏样式 */
+/* 顶部导航样式 */
 nav {
   backdrop-filter: blur(20px);
   background: rgba(255,255,255,0.8);
@@ -81,54 +81,66 @@ nav {
   background: var(--card-bg);
 }
 
-/* 数据集按钮 */
-.btn-group {
-  margin-bottom: 2.5rem;
-  text-align: center;
-}
-
-.btn-group a {
-  text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  margin: 0 0.2rem;
-  background: var(--btn-bg);
-  color: var(--primary-color);
-  border-radius: 999px;
-  font-weight: 500;
-  transition: background 0.3s, transform 0.2s;
-  backdrop-filter: blur(10px);
-  display: inline-block;
-}
-
-.btn-group a:hover {
-  background: var(--card-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.btn-group a:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-/* 图像卡片样式 */
-.dataset-image {
-  background: var(--card-bg);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-top: 2.5rem;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  scroll-margin-top: 100px;
-}
-
-.dataset-image img {
-  width: 100%;
+/* Abstract & Figures 图像样式 */
+.text-center img {
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* Contribute 部分间距 */
-#contribute {
-  margin-top: 4rem;
-  padding-bottom: 4rem;
+/* DataTables 样式调整 */
+#leaderboard-table {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
+
+#leaderboard-table th,
+#leaderboard-table td {
+  border: none;
+  padding: 1rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+#leaderboard-table thead {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+#leaderboard-table tbody tr {
+  transition: background 0.3s;
+}
+
+#leaderboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* 分页控件 */
+.dataTables_wrapper .dataTables_paginate {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.dataTables_wrapper .paginate_button {
+  background: var(--btn-bg) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 0.75rem !important;
+  margin: 0 0.2rem !important;
+  color: var(--primary-color) !important;
+  transition: background 0.3s;
+}
+
+.dataTables_wrapper .paginate_button.current {
+  background: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+/* Length 控件与说明文字 */
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_info {
+  color: var(--text-color);
+}
+
