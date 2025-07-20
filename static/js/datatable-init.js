@@ -1,123 +1,50 @@
 // static/js/datatable-init.js
 
-$(document).ready(function() {
-  $('#leaderboard-table').DataTable({
-    // 只保留 length、table、info、pagination，不要全局搜索框
-    dom: 'lrtip',
+$(function() {
+  const table = $('#leaderboard-table').DataTable({
+    // l = length, f = filter (search box), r = processing, t = table, i = info, p = pagination
+    dom: 'lfrtip',
 
-    // 从 JSON 加载数据
     ajax: {
       url: 'static/src/data/prbench_table8.json',
-      dataSrc: ''
+      dataSrc: '',
+      error: function(xhr, error, thrown) {
+        console.error('加载 JSON 失败:', xhr.status, thrown);
+      }
     },
 
-    // 列定义
+    // 列定义（共 19 列，和 <thead> 保持一致）
     columns: [
-      { data: 'dataset' },
-      { data: 'model' },
-      { data: 'method' },
-      { data: 'acc' },
+      { data: 'dataset' },   // 0
+      { data: 'model' },     // 1
+      { data: 'method' },    // 2
+      { data: 'acc' },       // 3
 
-      // --- PR under Uniform ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.12'];
-        }
-      },
+      // Uniform PR
+      { data: null, render: d => d.pr_uniform['0.03'] }, // 4
+      { data: null, render: d => d.pr_uniform['0.08'] }, // 5
+      { data: null, render: d => d.pr_uniform['0.10'] }, // 6
+      { data: null, render: d => d.pr_uniform['0.12'] }, // 7
 
-      // --- PR under Gaussian ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.12'];
-        }
-      },
+      // Gaussian PR
+      { data: null, render: d => d.pr_gaussian['0.03'] }, // 8
+      { data: null, render: d => d.pr_gaussian['0.08'] }, // 9
+      { data: null, render: d => d.pr_gaussian['0.10'] }, // 10
+      { data: null, render: d => d.pr_gaussian['0.12'] }, // 11
 
-      // --- PR under Laplace ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.12'];
-        }
-      },
+      // Laplace PR
+      { data: null, render: d => d.pr_laplace['0.03'] }, // 12
+      { data: null, render: d => d.pr_laplace['0.08'] }, // 13
+      { data: null, render: d => d.pr_laplace['0.10'] }, // 14
+      { data: null, render: d => d.pr_laplace['0.12'] }, // 15
 
-      // --- Generalisation Error ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.uni;
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.gau;
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.lap;
-        }
-      }
+      // Generalisation Error
+      { data: null, render: d => d.ge.uni }, // 16
+      { data: null, render: d => d.ge.gau }, // 17
+      { data: null, render: d => d.ge.lap }  // 18
     ],
 
-// 保持 JSON 中的原始顺序，不做初始排序
+    // 保持 JSON 中的原始顺序，不做初始排序
     order: [],
 
     // 每页显示 25 行
@@ -163,5 +90,4 @@ $(document).ready(function() {
     }
   });
 });
-
 
