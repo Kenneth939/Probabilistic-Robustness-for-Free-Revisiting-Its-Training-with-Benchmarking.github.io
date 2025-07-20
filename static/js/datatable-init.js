@@ -2,9 +2,10 @@
 
 $(function() {
   const table = $('#leaderboard-table').DataTable({
-    // l = length, f = filter (search box), r = processing, t = table, i = info, p = pagination
+    // l = length, f = filter(Search), r = processing, t = table, i = info, p = pagination
     dom: 'lfrtip',
 
+    // AJAX 加载 JSON
     ajax: {
       url: 'static/src/data/prbench_table8.json',
       dataSrc: '',
@@ -13,80 +14,99 @@ $(function() {
       }
     },
 
-    // 列定义（共 19 列，和 <thead> 保持一致）
+    // 列定义（共 19 列）
     columns: [
-      { data: 'dataset' },   // 0
-      { data: 'model' },     // 1
-      { data: 'method' },    // 2
-      { data: 'acc' },       // 3
+      { data: 'dataset' }, // 0
+      { data: 'model'   }, // 1
+      { data: 'method'  }, // 2
+      { data: 'acc'     }, // 3
 
       // Uniform PR
-      { data: null, render: d => d.pr_uniform['0.03'] }, // 4
-      { data: null, render: d => d.pr_uniform['0.08'] }, // 5
-      { data: null, render: d => d.pr_uniform['0.1'] }, // 6
-      { data: null, render: d => d.pr_uniform['0.12'] }, // 7
+      {
+        data: function(row) { return row.pr_uniform['0.03']; }
+      }, // 4
+      {
+        data: function(row) { return row.pr_uniform['0.08']; }
+      }, // 5
+      {
+        data: function(row) { return row.pr_uniform['0.10']; }
+      }, // 6
+      {
+        data: function(row) { return row.pr_uniform['0.12']; }
+      }, // 7
 
       // Gaussian PR
-      { data: null, render: d => d.pr_gaussian['0.03'] }, // 8
-      { data: null, render: d => d.pr_gaussian['0.08'] }, // 9
-      { data: null, render: d => d.pr_gaussian['0.1'] }, // 10
-      { data: null, render: d => d.pr_gaussian['0.12'] }, // 11
+      {
+        data: function(row) { return row.pr_gaussian['0.03']; }
+      }, // 8
+      {
+        data: function(row) { return row.pr_gaussian['0.08']; }
+      }, // 9
+      {
+        data: function(row) { return row.pr_gaussian['0.10']; }
+      }, // 10
+      {
+        data: function(row) { return row.pr_gaussian['0.12']; }
+      }, // 11
 
       // Laplace PR
-      { data: null, render: d => d.pr_laplace['0.03'] }, // 12
-      { data: null, render: d => d.pr_laplace['0.08'] }, // 13
-      { data: null, render: d => d.pr_laplace['0.1'] }, // 14
-      { data: null, render: d => d.pr_laplace['0.12'] }, // 15
+      {
+        data: function(row) { return row.pr_laplace['0.03']; }
+      }, // 12
+      {
+        data: function(row) { return row.pr_laplace['0.08']; }
+      }, // 13
+      {
+        data: function(row) { return row.pr_laplace['0.10']; }
+      }, // 14
+      {
+        data: function(row) { return row.pr_laplace['0.12']; }
+      }, // 15
 
       // Generalisation Error
-      { data: null, render: d => d.ge.uni }, // 16
-      { data: null, render: d => d.ge.gau }, // 17
-      { data: null, render: d => d.ge.lap }  // 18
+      {
+        data: function(row) { return row.ge.uni; }
+      }, // 16
+      {
+        data: function(row) { return row.ge.gau; }
+      }, // 17
+      {
+        data: function(row) { return row.ge.lap; }
+      }  // 18
     ],
 
-    // 保持 JSON 中的原始顺序，不做初始排序
+    // 保持 JSON 原始顺序，不做初始排序
     order: [],
 
-    // 每页显示 25 行
     pageLength: 25,
 
+    // 初始化完成后，为前三列创建按钮过滤
     initComplete: function() {
       const api = this.api();
 
-      // 取出三列的所有唯一值
-      const datasetValues = api.column(0).data().unique().sort().toArray();
-      const modelValues   = api.column(1).data().unique().sort().toArray();
-      const methodValues  = api.column(2).data().unique().sort().toArray();
+      // 取出唯一值并排序
+      const datasets = api.column(0).data().unique().sort().toArray();
+      const models   = api.column(1).data().unique().sort().toArray();
+      const methods  = api.column(2).data().unique().sort().toArray();
 
-      // 通用：在指定容器生成按钮组
-      function createButtons(values, containerSelector, colIndex) {
-        const $container = $(containerSelector);
-        $container.empty();
-        // “All” 按钮
-        $container.append(
-          `<button type="button" class="btn btn-sm me-1 active" data-col="${colIndex}" data-val="">All</button>`
-        );
-        // 各选项按钮
-        values.forEach(val => {
-          $container.append(
-            `<button type="button" class="btn btn-sm me-1" data-col="${colIndex}" data-val="${val}">${val}</button>`
-          );
+      function makeBtns(vals, container, colIdx) {
+        const $c = $(container).empty();
+        $c.append(`<button type="button" class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+        vals.forEach(v => {
+          $c.append(`<button type="button" class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
-        // 绑定点击事件
-        $container.on('click', 'button', function() {
-          const $btn = $(this);
-          // 切换样式
-          $container.find('button').removeClass('active');
-          $btn.addClass('active');
-          // 应用列过滤
-          api.column($btn.data('col')).search($btn.data('val')).draw();
+        $c.on('click', 'button', function() {
+          const $b = $(this);
+          $c.find('button').removeClass('active');
+          $b.addClass('active');
+          api.column($b.data('col')).search($b.data('val')).draw();
         });
       }
 
-      // 调用：生成三组按钮
-      createButtons(datasetValues, '#dataset-buttons', 0);
-      createButtons(modelValues,   '#model-buttons',   1);
-      createButtons(methodValues,  '#method-buttons',  2);
+      // 三个按钮组
+      makeBtns(datasets, '#dataset-buttons', 0);
+      makeBtns(models,   '#model-buttons',   1);
+      makeBtns(methods,  '#method-buttons',  2);
     }
   });
 });
