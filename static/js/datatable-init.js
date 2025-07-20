@@ -2,7 +2,7 @@
 
 $(function() {
   const table = $('#leaderboard-table').DataTable({
-    // l = length, f = filter(Search), r = processing, t = table, i = info, p = pagination
+    // l = length, f = filter (搜索框), r = processing, t = table, i = info, p = pagination
     dom: 'lfrtip',
 
     // AJAX 加载 JSON
@@ -14,144 +14,69 @@ $(function() {
       }
     },
 
-    // 列定义（共 19 列）
+    // 列定义（确保 <thead> 有 19 个 <th>）
     columns: [
-      { data: 'dataset' }, // 0
-      { data: 'model'   }, // 1
-      { data: 'method'  }, // 2
-      { data: 'acc'     }, // 3
+      { data: 'dataset' },   // 0
+      { data: 'model'   },   // 1
+      { data: 'method'  },   // 2
+      { data: 'acc'     },   // 3
 
- // --- PR under Uniform ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_uniform['0.12'];
-        }
-      },
+      // --- PR under Uniform ---
+      { data: 'pr_uniform', render: d => d['0.03'] }, // 4
+      { data: 'pr_uniform', render: d => d['0.08'] }, // 5
+      { data: 'pr_uniform', render: d => d['0.1']  }, // 6  ← 注意这里用 '0.1'
+      { data: 'pr_uniform', render: d => d['0.12'] }, // 7
 
       // --- PR under Gaussian ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_gaussian['0.12'];
-        }
-      },
+      { data: 'pr_gaussian', render: d => d['0.03'] }, // 8
+      { data: 'pr_gaussian', render: d => d['0.08'] }, // 9
+      { data: 'pr_gaussian', render: d => d['0.1']  }, // 10
+      { data: 'pr_gaussian', render: d => d['0.12'] }, // 11
 
       // --- PR under Laplace ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.03'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.08'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.1'];
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.pr_laplace['0.12'];
-        }
-      },
+      { data: 'pr_laplace', render: d => d['0.03'] }, // 12
+      { data: 'pr_laplace', render: d => d['0.08'] }, // 13
+      { data: 'pr_laplace', render: d => d['0.1']  }, // 14
+      { data: 'pr_laplace', render: d => d['0.12'] }, // 15
 
       // --- Generalisation Error ---
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.uni;
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.gau;
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return data.ge.lap;
-        }
-      }
+      { data: 'ge', render: d => d.uni }, // 16
+      { data: 'ge', render: d => d.gau }, // 17
+      { data: 'ge', render: d => d.lap }  // 18
     ],
 
     // 保持 JSON 原始顺序，不做初始排序
     order: [],
 
+    // 每页显示 25 行
     pageLength: 25,
 
-    // 初始化完成后，为前三列创建按钮过滤
+    // 初始化完成后，给前三列创建按钮过滤
     initComplete: function() {
       const api = this.api();
 
-      // 取出唯一值并排序
+      // 取出三列唯一值
       const datasets = api.column(0).data().unique().sort().toArray();
       const models   = api.column(1).data().unique().sort().toArray();
       const methods  = api.column(2).data().unique().sort().toArray();
 
-      function makeBtns(vals, container, colIdx) {
-        const $c = $(container).empty();
-        $c.append(`<button type="button" class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+      // 在指定容器生成按钮并绑定过滤
+      function makeButtons(vals, selector, colIdx) {
+        const $c = $(selector).empty();
+        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
         vals.forEach(v => {
-          $c.append(`<button type="button" class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
+          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
         $c.on('click', 'button', function() {
-          const $b = $(this);
           $c.find('button').removeClass('active');
-          $b.addClass('active');
-          api.column($b.data('col')).search($b.data('val')).draw();
+          $(this).addClass('active');
+          api.column(colIdx).search($(this).data('val')).draw();
         });
       }
 
-      // 三个按钮组
-      makeBtns(datasets, '#dataset-buttons', 0);
-      makeBtns(models,   '#model-buttons',   1);
-      makeBtns(methods,  '#method-buttons',  2);
+      makeButtons(datasets, '#dataset-buttons', 0);
+      makeButtons(models,   '#model-buttons',   1);
+      makeButtons(methods,  '#method-buttons',  2);
     }
   });
 });
