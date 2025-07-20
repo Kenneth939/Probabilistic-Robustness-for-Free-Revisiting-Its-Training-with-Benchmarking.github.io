@@ -21,58 +21,103 @@ $(function() {
       { data: 'method'  }, // 2
       { data: 'acc'     }, // 3
 
-      // Uniform PR
+ // --- PR under Uniform ---
       {
-        data: function(row) { return row.pr_uniform['0.03']; }
-      }, // 4
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_uniform['0.03'];
+        }
+      },
       {
-        data: function(row) { return row.pr_uniform['0.08']; }
-      }, // 5
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_uniform['0.08'];
+        }
+      },
       {
-        data: function(row) { return row.pr_uniform['0.10']; }
-      }, // 6
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_uniform['0.10'];
+        }
+      },
       {
-        data: function(row) { return row.pr_uniform['0.12']; }
-      }, // 7
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_uniform['0.12'];
+        }
+      },
 
-      // Gaussian PR
+      // --- PR under Gaussian ---
       {
-        data: function(row) { return row.pr_gaussian['0.03']; }
-      }, // 8
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_gaussian['0.03'];
+        }
+      },
       {
-        data: function(row) { return row.pr_gaussian['0.08']; }
-      }, // 9
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_gaussian['0.08'];
+        }
+      },
       {
-        data: function(row) { return row.pr_gaussian['0.10']; }
-      }, // 10
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_gaussian['0.10'];
+        }
+      },
       {
-        data: function(row) { return row.pr_gaussian['0.12']; }
-      }, // 11
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_gaussian['0.12'];
+        }
+      },
 
-      // Laplace PR
+      // --- PR under Laplace ---
       {
-        data: function(row) { return row.pr_laplace['0.03']; }
-      }, // 12
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_laplace['0.03'];
+        }
+      },
       {
-        data: function(row) { return row.pr_laplace['0.08']; }
-      }, // 13
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_laplace['0.08'];
+        }
+      },
       {
-        data: function(row) { return row.pr_laplace['0.10']; }
-      }, // 14
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_laplace['0.10'];
+        }
+      },
       {
-        data: function(row) { return row.pr_laplace['0.12']; }
-      }, // 15
+        data: null,
+        render: function(data, type, row) {
+          return data.pr_laplace['0.12'];
+        }
+      },
 
-      // Generalisation Error
+      // --- Generalisation Error ---
       {
-        data: function(row) { return row.ge.uni; }
-      }, // 16
+        data: null,
+        render: function(data, type, row) {
+          return data.ge.uni;
+        }
+      },
       {
-        data: function(row) { return row.ge.gau; }
-      }, // 17
+        data: null,
+        render: function(data, type, row) {
+          return data.ge.gau;
+        }
+      },
       {
-        data: function(row) { return row.ge.lap; }
-      }  // 18
+        data: null,
+        render: function(data, type, row) {
+          return data.ge.lap;
+        }
+      }
     ],
 
     // 保持 JSON 原始顺序，不做初始排序
