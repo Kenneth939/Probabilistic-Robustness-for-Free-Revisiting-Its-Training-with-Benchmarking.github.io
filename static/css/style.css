@@ -20,6 +20,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 默认容器，除 Leaderboards 区外可继续使用 max-width */
 .container {
   max-width: 900px;
   margin: 0 auto;
@@ -35,8 +36,8 @@ h1, h2, h3 {
 /* 顶部导航样式 */
 nav {
   backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.8);
-  box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -84,7 +85,16 @@ nav {
 /* Abstract & Figures 图像样式 */
 .text-center img {
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  height: auto;
+}
+
+/* —— Leaderboards 区域撑满屏宽 —— */
+#leaderboards,
+#leaderboards .container {
+  max-width: 100% !important;
+  padding: 1rem 2rem;
 }
 
 /* 筛选按钮组 */
@@ -126,68 +136,112 @@ nav {
   color: var(--text-color);
 }
 .dataTables_filter input {
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   width: 200px;
   margin-left: 0.5rem;
 }
 
-/* DataTables 样式调整 */
-#leaderboard-table {
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--card-bg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-#leaderboard-table th,
-#leaderboard-table td {
-  border: none;
-  padding: 1rem;
+/* “Show X entries” 控件 样式 */
+.dataTables_length {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   color: var(--text-color);
-  text-align: center;
+}
+.dataTables_length label {
+  margin: 0;
+  font-weight: 500;
+}
+.dataTables_length select {
+  margin: 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.dataTables_length select:focus {
+  outline: none;
+  border-color: var(--primary-color);
 }
 
-#leaderboard-table thead {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(10px);
+/* ---- DataTables 信息文字 ---- */
+.dataTables_info {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  text-align: left;
 }
 
-#leaderboard-table tbody tr {
-  transition: background 0.3s;
-}
-
-#leaderboard-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-/* 分页控件 */
+/* ---- DataTables 分页条 ---- */
 .dataTables_wrapper .dataTables_paginate {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  align-items: center;
+  margin: 0.5rem 0 2rem;
 }
 
 .dataTables_wrapper .paginate_button {
   background: var(--btn-bg) !important;
-  border: none !important;
-  border-radius: 8px !important;
-  padding: 0.5rem 0.75rem !important;
-  margin: 0 0.2rem !important;
   color: var(--primary-color) !important;
-  transition: background 0.3s;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 0.4rem 0.8rem !important;
+  margin: 0 0.25rem !important;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.dataTables_wrapper .paginate_button:hover {
+  background: var(--card-bg) !important;
+  transform: translateY(-1px);
 }
 
 .dataTables_wrapper .paginate_button.current {
   background: var(--primary-color) !important;
   color: #fff !important;
+  font-weight: 600;
 }
 
-/* Length 控件与说明文字 */
-.dataTables_wrapper .dataTables_length select,
-.dataTables_wrapper .dataTables_info {
+.dataTables_wrapper .paginate_button.disabled {
+  opacity: 0.5 !important;
+  cursor: default !important;
+}
+
+/* 防止表格横向滚动 */
+#leaderboard-table_wrapper {
+  overflow-x: hidden;
+}
+
+/* —— 表格主体样式 —— */
+#leaderboard-table {
+  width: 100% !important;
+  font-size: 0.85rem;
+  table-layout: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+#leaderboard-table th,
+#leaderboard-table td {
+  border: none;
+  padding: 0.4rem 0.6rem;
   color: var(--text-color);
+  text-align: center;
 }
-
+#leaderboard-table thead {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+#leaderboard-table tbody tr {
+  transition: background 0.3s;
+}
+#leaderboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
 
