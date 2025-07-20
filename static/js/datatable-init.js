@@ -23,19 +23,19 @@ $(function() {
       // Uniform PR
       { data: null, render: d => d.pr_uniform['0.03'] }, // 4
       { data: null, render: d => d.pr_uniform['0.08'] }, // 5
-      { data: null, render: d => d.pr_uniform['0.10'] }, // 6
+      { data: null, render: d => d.pr_uniform['0.1'] }, // 6
       { data: null, render: d => d.pr_uniform['0.12'] }, // 7
 
       // Gaussian PR
       { data: null, render: d => d.pr_gaussian['0.03'] }, // 8
       { data: null, render: d => d.pr_gaussian['0.08'] }, // 9
-      { data: null, render: d => d.pr_gaussian['0.10'] }, // 10
+      { data: null, render: d => d.pr_gaussian['0.1'] }, // 10
       { data: null, render: d => d.pr_gaussian['0.12'] }, // 11
 
       // Laplace PR
       { data: null, render: d => d.pr_laplace['0.03'] }, // 12
       { data: null, render: d => d.pr_laplace['0.08'] }, // 13
-      { data: null, render: d => d.pr_laplace['0.10'] }, // 14
+      { data: null, render: d => d.pr_laplace['0.1'] }, // 14
       { data: null, render: d => d.pr_laplace['0.12'] }, // 15
 
       // Generalisation Error
