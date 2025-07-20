@@ -117,26 +117,49 @@ $(document).ready(function() {
       }
     ],
 
-    // 保持 JSON 原始顺序，不做初始排序
+// 保持 JSON 中的原始顺序，不做初始排序
     order: [],
 
-    // 每页 25 行
+    // 每页显示 25 行
     pageLength: 25,
 
-    // 初始化完成后，给前三列添加下拉筛选
     initComplete: function() {
-      this.api().columns([0, 1, 2]).every(function() {
-        var column = this;
-        var select = $('<select class="form-select form-select-sm"><option value="">All</option></select>')
-          .appendTo($(column.header()).empty())
-          .on('change', function() {
-            column.search(this.value).draw();
-          });
+      const api = this.api();
 
-        column.data().unique().sort().each(function(d) {
-          select.append('<option value="' + d + '">' + d + '</option>');
+      // 取出三列的所有唯一值
+      const datasetValues = api.column(0).data().unique().sort().toArray();
+      const modelValues   = api.column(1).data().unique().sort().toArray();
+      const methodValues  = api.column(2).data().unique().sort().toArray();
+
+      // 通用：在指定容器生成按钮组
+      function createButtons(values, containerSelector, colIndex) {
+        const $container = $(containerSelector);
+        $container.empty();
+        // “All” 按钮
+        $container.append(
+          `<button type="button" class="btn btn-sm me-1 active" data-col="${colIndex}" data-val="">All</button>`
+        );
+        // 各选项按钮
+        values.forEach(val => {
+          $container.append(
+            `<button type="button" class="btn btn-sm me-1" data-col="${colIndex}" data-val="${val}">${val}</button>`
+          );
         });
-      });
+        // 绑定点击事件
+        $container.on('click', 'button', function() {
+          const $btn = $(this);
+          // 切换样式
+          $container.find('button').removeClass('active');
+          $btn.addClass('active');
+          // 应用列过滤
+          api.column($btn.data('col')).search($btn.data('val')).draw();
+        });
+      }
+
+      // 调用：生成三组按钮
+      createButtons(datasetValues, '#dataset-buttons', 0);
+      createButtons(modelValues,   '#model-buttons',   1);
+      createButtons(methodValues,  '#method-buttons',  2);
     }
   });
 });
