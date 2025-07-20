@@ -49,76 +49,45 @@
     </div>
   </div>
   
-   <!-- Available Leaderboards -->
-  <div class="container mt-5" id="leaderboards">
-    <h1>Available Leaderboards</h1>
-    <!-- 外部筛选控件 -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-4">
-        <label for="datasetFilter" class="form-label">Dataset</label>
-        <select id="datasetFilter" class="form-select">
-          <option value="">All</option>
-          <option value="CIFAR-10">CIFAR-10</option>
-          <option value="CIFAR-100">CIFAR-100</option>
-          <option value="SVHN">SVHN</option>
-          <option value="MNIST">MNIST</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="modelFilter" class="form-label">Model</label>
-        <select id="modelFilter" class="form-select">
-          <option value="">All</option>
-          <option value="VGG-19">VGG-19</option>
-          <option value="ResNet-18">ResNet-18</option>
-          <option value="WRN-28-10">WRN-28-10</option>
-          <option value="DeiT-T">DeiT-T</option>
-          <option value="DeiT-S">DeiT-S</option>
-          <option value="ViT-S">ViT-S</option>
-          <option value="ViT-B">ViT-B</option>
-          <option value="Simple-CNN">Simple-CNN</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="methodFilter" class="form-label">Method</label>
-        <select id="methodFilter" class="form-select">
-          <option value="">All</option>
-          <option value="ERM">ERM</option>
-          <option value="Corr_Uniform">Corr_Uniform</option>
-          <option value="Corr_Gaussian">Corr_Gaussian</option>
-          <option value="Corr_Laplace">Corr_Laplace</option>
-          <option value="PGD">PGD</option>
-        </select>
-      </div>
+ <!-- Available Leaderboards -->
+<div class="container mt-5" id="leaderboards">
+  <h1>Available Leaderboards</h1>
+
+  <!-- 新增：三组按钮 -->
+  <div id="filter-controls" class="mb-3">
+    <div class="mb-2">
+      <strong>Dataset: </strong>
+      <div id="dataset-buttons" class="btn-group" role="group"></div>
     </div>
-    <table id="leaderboard-table"
-           class="table table-striped table-bordered"
-           style="width:100%">
-      <thead>
-        <tr>
-          <th>Dataset</th>
-          <th>Model</th>
-          <th>Method</th>
-          <th>Acc. %</th>
-          <th>PR<sub>Uni.</sub>(0.03)%</th>
-          <th>PR<sub>Uni.</sub>(0.08)%</th>
-          <th>PR<sub>Uni.</sub>(0.10)%</th>
-          <th>PR<sub>Uni.</sub>(0.12)%</th>
-          <th>PR<sub>Gau.</sub>(0.03)%</th>
-          <th>PR<sub>Gau.</sub>(0.08)%</th>
-          <th>PR<sub>Gau.</sub>(0.10)%</th>
-          <th>PR<sub>Gau.</sub>(0.12)%</th>
-          <th>PR<sub>Lap.</sub>(0.03)%</th>
-          <th>PR<sub>Lap.</sub>(0.08)%</th>
-          <th>PR<sub>Lap.</sub>(0.10)%</th>
-          <th>PR<sub>Lap.</sub>(0.12)%</th>
-          <th>GEPR<sub>Uni.</sub>%</th>
-          <th>GEPR<sub>Gau.</sub>%</th>
-          <th>GEPR<sub>Lap.</sub>%</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="mb-2">
+      <strong>Model: </strong>
+      <div id="model-buttons" class="btn-group" role="group"></div>
+    </div>
+    <div class="mb-2">
+      <strong>Method: </strong>
+      <div id="method-buttons" class="btn-group" role="group"></div>
+    </div>
   </div>
+
+  <!-- 表格 -->
+  <table id="leaderboard-table"
+         class="table table-striped table-bordered"
+         style="width:100%">
+    <thead>
+      <tr>
+        <th>Dataset</th>
+        <th>Model</th>
+        <th>Method</th>
+        <th>Acc. %</th>
+        <th>PR Uni 0.03%</th><th>0.08%</th><th>0.10%</th><th>0.12%</th>
+        <th>PR Gau 0.03%</th><th>0.08%</th><th>0.10%</th><th>0.12%</th>
+        <th>PR Lap 0.03%</th><th>0.08%</th><th>0.10%</th><th>0.12%</th>
+        <th>GE Uni%</th><th>Gau%</th><th>Lap%</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 
 
   <!-- Contribute -->
