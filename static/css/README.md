@@ -1,1 +1,193 @@
+:root {
+  --bg-color: #f2f2f5;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --btn-bg: rgba(255, 255, 255, 0.6);
+  --primary-color: #0071e3;
+  --text-color: #1d1d1f;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* 顶部导航样式 */
+nav {
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  color: var(--primary-color) !important;
+  text-decoration: none;
+}
+
+.navbar .navbar-nav {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .nav-item {
+  margin: 0;
+}
+
+.navbar .nav-link {
+  display: block;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: var(--btn-bg);
+  color: var(--text-color);
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.navbar .nav-link:hover {
+  background: var(--card-bg);
+}
+
+/* Abstract & Figures 图像样式 */
+.text-center img {
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 筛选按钮组 */
+#filter-controls {
+  margin-bottom: 1.5rem;
+}
+#filter-controls .btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+#filter-controls .btn-group button {
+  background: var(--btn-bg);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+#filter-controls .btn-group button:hover {
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+#filter-controls .btn-group button.active {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/* DataTables 全局搜索框 */
+.dataTables_filter {
+  display: block !important;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.dataTables_filter label {
+  font-weight: 500;
+  color: var(--text-color);
+}
+.dataTables_filter input {
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  width: 200px;
+  margin-left: 0.5rem;
+}
+
+/* DataTables 样式调整 */
+#leaderboard-table {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#leaderboard-table th,
+#leaderboard-table td {
+  border: none;
+  padding: 1rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+#leaderboard-table thead {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+#leaderboard-table tbody tr {
+  transition: background 0.3s;
+}
+
+#leaderboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* 分页控件 */
+.dataTables_wrapper .dataTables_paginate {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.dataTables_wrapper .paginate_button {
+  background: var(--btn-bg) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 0.75rem !important;
+  margin: 0 0.2rem !important;
+  color: var(--primary-color) !important;
+  transition: background 0.3s;
+}
+
+.dataTables_wrapper .paginate_button.current {
+  background: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+/* Length 控件与说明文字 */
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_info {
+  color: var(--text-color);
+}
+
 
