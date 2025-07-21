@@ -1,6 +1,7 @@
 // static/js/datatable-init.js
 
 $(function() {
+  // === 原有 Leaderboard 初始化（完全照搬） ===
   $('#leaderboard-table').DataTable({
     // l = length, f = search, r = processing, t = table, i = info, p = pagination
     dom: 'lfrtip',
@@ -133,16 +134,17 @@ $(function() {
       makeButtons(mapVals(2), '#method-buttons',  2);
     }
   });
-});
 
-// static/js/datatable-init.js
 
-$(function() {
+  // === 新增 Performance 表格初始化（同样逻辑，不改原有代码体，仅换 ID 和 JSON） ===
   $('#performance-table').DataTable({
     dom: 'lfrtip',
     ajax: {
       url: 'static/src/data/prbench_table9.json',
-      dataSrc: ''
+      dataSrc: '',
+      error: function(xhr, error, thrown) {
+        console.error('Failed to load JSON:', xhr.status, thrown);
+      }
     },
     columns: [
       { data: 'dataset',    defaultContent: '' }, // 0
@@ -151,129 +153,59 @@ $(function() {
       { data: 'acc',        defaultContent: '' }, // 3
 
       // AR
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.pgd10
-      }, // 4
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.pgd20
-      }, // 5
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.cw20
-      }, // 6
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.aa
-      }, // 7
+      { data: null, defaultContent: '', render: d=>d.ar.pgd10 }, //4
+      { data: null, defaultContent: '', render: d=>d.ar.pgd20 }, //5
+      { data: null, defaultContent: '', render: d=>d.ar.cw20 }, //6
+      { data: null, defaultContent: '', render: d=>d.ar.aa   }, //7
 
       // PR
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.pr['0.03']
-      }, // 8
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.pr['0.08']
-      }, // 9
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.pr['0.10']
-      }, // 10
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.pr['0.12']
-      }, // 11
+      { data: null, defaultContent: '', render: d=>d.pr['0.03'] }, //8
+      { data: null, defaultContent: '', render: d=>d.pr['0.08'] }, //9
+      { data: null, defaultContent: '', render: d=>d.pr['0.10'] },//10
+      { data: null, defaultContent: '', render: d=>d.pr['0.12'] },//11
 
       // ProbAccPR
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.probaccpr
-      }, // 12
+      { data: null, defaultContent: '', render: d=>d.probaccpr }, //12
 
       // GEAR
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear.pgd20
-      }, // 13
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.03']
-      }, // 14
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.08']
-      }, // 15
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.12']
-      }, // 16
+      { data: null, defaultContent: '', render: d=>d.gear.pgd20 },//13
+      { data: null, defaultContent: '', render: d=>d.gear['0.03'] },//14
+      { data: null, defaultContent: '', render: d=>d.gear['0.08'] },//15
+      { data: null, defaultContent: '', render: d=>d.gear['0.12'] },//16
 
       // GEPR
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.uni
-      }, // 17
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.gau
-      }, // 18
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.lap
-      }, // 19
+      { data: null, defaultContent: '', render: d=>d.gepr.uni },  //17
+      { data: null, defaultContent: '', render: d=>d.gepr.gau },  //18
+      { data: null, defaultContent: '', render: d=>d.gepr.lap },  //19
 
       // Time
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.time
-      }  // 20
+      { data: null, defaultContent: '', render: d=>d.time }      //20
     ],
     pageLength: 25,
     order: [],
     initComplete: function() {
       const api = this.api();
       const vals = i => api.column(i).data().unique().sort().toArray();
-
-      function makeButtons(list, sel, idx) {
+      function makeButtons(vals, sel, colIdx) {
         const $c = $(sel).empty();
-        $c.append(`<button class="btn btn-sm me-1 active" data-col="${idx}" data-val="">All</button>`);
-        list.forEach(v => {
-          $c.append(`<button class="btn btn-sm me-1" data-col="${idx}" data-val="${v}">${v}</button>`);
+        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+        vals.forEach(v => {
+          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
-        $c.on('click', 'button', function() {
+        $c.on('click','button',function(){
           $c.find('button').removeClass('active');
           $(this).addClass('active');
-          api.column(idx).search($(this).data('val')).draw();
+          api.column(colIdx).search($(this).data('val')).draw();
         });
       }
-
       makeButtons(vals(0), '#performance-dataset-buttons', 0);
       makeButtons(vals(1), '#performance-model-buttons',   1);
       makeButtons(vals(2), '#performance-method-buttons',  2);
 
-      $('#performance-global-search').on('input', function() {
+      $('#performance-global-search').on('input', function(){
         api.search(this.value).draw();
       });
     }
   });
-});
 
+});
