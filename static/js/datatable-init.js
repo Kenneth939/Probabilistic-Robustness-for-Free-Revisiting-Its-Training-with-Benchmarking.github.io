@@ -136,7 +136,6 @@ $(function() {
 });
 
 // static/js/datatable-init.js
-
 $(function() {
   $('#performance-table').DataTable({
     dom: 'lfrtip',
@@ -145,124 +144,102 @@ $(function() {
       dataSrc: ''
     },
     columns: [
-      { data: 'dataset',    defaultContent: '' }, // 0
-      { data: 'model',      defaultContent: '' }, // 1
-      { data: 'method',     defaultContent: '' }, // 2
-      { data: 'acc',        defaultContent: '' }, // 3
+      // 0–3 都是顶层字段
+      { data: 'dataset', defaultContent: '' },
+      { data: 'model',   defaultContent: '' },
+      { data: 'method',  defaultContent: '' },
+      { data: 'acc',     defaultContent: '' },
 
-      // AR
+      // --- AR 列，JSON 用大写键名 “PGD10”/“PGD20”/“CW20”/“AA” ---
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.pgd10
-      }, // 4
+        data: null, defaultContent: '',
+        render: d => d.ar['PGD10']
+      },
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.pgd20
-      }, // 5
+        data: null, defaultContent: '',
+        render: d => d.ar['PGD20']
+      },
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.cw20
-      }, // 6
+        data: null, defaultContent: '',
+        render: d => d.ar['CW20']
+      },
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.ar.aa
-      }, // 7
+        data: null, defaultContent: '',
+        render: d => d.ar['AA']
+      },
 
-      // PR
+      // --- PR 列，键名 “0.03”/“0.08”/“0.10”/“0.12” ---
       {
-        data: null,
-        defaultContent: '',
+        data: null, defaultContent: '',
         render: d => d.pr['0.03']
-      }, // 8
+      },
       {
-        data: null,
-        defaultContent: '',
+        data: null, defaultContent: '',
         render: d => d.pr['0.08']
-      }, // 9
+      },
       {
-        data: null,
-        defaultContent: '',
+        data: null, defaultContent: '',
         render: d => d.pr['0.10']
-      }, // 10
+      },
       {
-        data: null,
-        defaultContent: '',
+        data: null, defaultContent: '',
         render: d => d.pr['0.12']
-      }, // 11
+      },
 
-      // ProbAccPR
+      // --- ProbAccPR 列，你的 JSON 键名叫 “probacc” ---
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.probaccpr
-      }, // 12
+        data: null, defaultContent: '',
+        render: d => d.probacc['0.10']
+      },
 
-      // GEAR
+      // --- GEAR 列 (你把 ge_ar 当成了 gear) ---
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear.pgd20
-      }, // 13
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.03']
-      }, // 14
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.08']
-      }, // 15
-      {
-        data: null,
-        defaultContent: '',
-        render: d => d.gear['0.12']
-      }, // 16
+        data: null, defaultContent: '',
+        render: d => d.ge_ar['PGD20']
+      },
 
-      // GEPR
+      // --- GEPR 列，用的是 ge_pr，键名同 PR 部分 ---
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.uni
-      }, // 17
+        data: null, defaultContent: '',
+        render: d => d.ge_pr['0.03']
+      },
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.gau
-      }, // 18
+        data: null, defaultContent: '',
+        render: d => d.ge_pr['0.08']
+      },
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.gepr.lap
-      }, // 19
+        data: null, defaultContent: '',
+        render: d => d.ge_pr['0.10']
+      },
+      {
+        data: null, defaultContent: '',
+        render: d => d.ge_pr['0.12']
+      },
 
-      // Time
+      // --- 训练时间列，对应 JSON 的 time_s_per_ep ---
       {
-        data: null,
-        defaultContent: '',
-        render: d => d.time
-      }  // 20
+        data: null, defaultContent: '',
+        render: d => d.time_s_per_ep
+      }
     ],
+
     pageLength: 25,
     order: [],
+
     initComplete: function() {
       const api = this.api();
-      const vals = i => api.column(i).data().unique().sort().toArray();
+      const vals = idx => api.column(idx).data().unique().sort().toArray();
 
-      function makeButtons(list, sel, idx) {
+      function makeButtons(list, sel, colIdx) {
         const $c = $(sel).empty();
-        $c.append(`<button class="btn btn-sm me-1 active" data-col="${idx}" data-val="">All</button>`);
+        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
         list.forEach(v => {
-          $c.append(`<button class="btn btn-sm me-1" data-col="${idx}" data-val="${v}">${v}</button>`);
+          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
         $c.on('click', 'button', function() {
           $c.find('button').removeClass('active');
           $(this).addClass('active');
-          api.column(idx).search($(this).data('val')).draw();
+          api.column(colIdx).search($(this).data('val')).draw();
         });
       }
 
@@ -270,9 +247,11 @@ $(function() {
       makeButtons(vals(1), '#performance-model-buttons',   1);
       makeButtons(vals(2), '#performance-method-buttons',  2);
 
+      // 如果你还要全局搜索
       $('#performance-global-search').on('input', function() {
         api.search(this.value).draw();
       });
     }
   });
 });
+
