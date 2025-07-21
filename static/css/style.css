@@ -49,7 +49,9 @@ nav {
 .navbar-brand {
   font-size: 1.3rem; color: var(--primary-color) !important; text-decoration: none;
 }
-.navbar-nav { display: flex; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.navbar-nav {
+  display: flex; gap: 0.75rem; margin: 0; padding: 0; list-style: none;
+}
 .nav-link {
   text-decoration: none;
   padding: 0.4rem 0.6rem;
@@ -59,20 +61,29 @@ nav {
   font-size: 0.9rem;
   transition: background 0.3s;
 }
-.nav-link:hover { background: var(--card-bg); }
+.nav-link:hover {
+  background: var(--card-bg);
+}
 
 /* Abstract & Figures */
 .text-center img {
-  display: block; margin: 0.75rem auto;
+  display: block;
+  margin: 0.75rem auto;
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  max-width: 100%; height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 /* 筛选按钮组 */
-#filter-controls { text-align: center; margin: 1rem 0; }
+#filter-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
 #filter-controls .btn-group {
-  display: inline-flex; flex-wrap: wrap; gap: 0.4rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 #filter-controls .btn-group button {
   background: var(--btn-bg);
@@ -93,14 +104,19 @@ nav {
 }
 
 /* DataTables 包装器防横向滚动 */
-.dataTables_wrapper { width: 100%; overflow-x: hidden; }
+.dataTables_wrapper {
+  width: 100%;
+  overflow-x: hidden;
+}
 
 /* 全局搜索框 */
 .dataTables_filter {
-  text-align: right; margin-bottom: 0.75rem;
+  text-align: right;
+  margin-bottom: 0.75rem;
 }
 .dataTables_filter label {
-  font-size: 0.9rem; color: var(--text-color);
+  font-size: 0.9rem;
+  color: var(--text-color);
 }
 .dataTables_filter input {
   border: 1px solid rgba(0,0,0,0.2);
@@ -118,7 +134,10 @@ nav {
   margin-bottom: 0.75rem;
   font-size: 0.9rem;
 }
-.dataTables_length label { margin: 0; font-weight: 500; }
+.dataTables_length label {
+  margin: 0;
+  font-weight: 500;
+}
 .dataTables_length select {
   margin: 0 0.5rem;
   padding: 0.3rem 0.5rem;
@@ -199,6 +218,7 @@ nav {
   opacity: 0.4;
   pointer-events: none;
 }
+
 /* —— Performance Table 样式 —— */
 #performance-table {
   width: 100% !important;
@@ -218,8 +238,10 @@ nav {
   text-align: center;
   white-space: normal;
   word-break: break-word;
+  hyphens: auto;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: normal;
 }
 
 /* 表头半透明毛玻璃背景 */
@@ -235,6 +257,13 @@ nav {
 #performance-table tbody tr:hover {
   background: rgba(255,255,255,0.5);
 }
+
+/* 恢复 Performance 表格左右内边距，与 .container 保持一致 */
+#performance-table_wrapper {
+  padding: 0 0.5rem;
+  margin: 0 auto;
+}
+
 /* —— Performance 表格的按钮组 —— */
 #performance-filter-controls {
   text-align: center;
