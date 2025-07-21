@@ -135,7 +135,8 @@ $(function() {
   });
 });
 
-// 在文件末尾，紧接着 leaderboard 部分
+// static/js/datatable-init.js
+
 $(function() {
   $('#performance-table').DataTable({
     dom: 'lfrtip',
@@ -144,51 +145,134 @@ $(function() {
       dataSrc: ''
     },
     columns: [
-      { data: 'dataset' },     // 0
-      { data: 'model'   },     // 1
-      { data: 'method'  },     // 2
-      { data: 'acc'     },     // 3
-      { data: 'ar.pgd10'        }, // 4
-      { data: 'ar.pgd20'        }, // 5
-      { data: 'ar.cw20'         }, // 6
-      { data: 'ar.aa'           }, // 7
-      { data: 'pr.0.03'         }, // 8
-      { data: 'pr.0.08'         }, // 9
-      { data: 'pr.0.10'         }, // 10
-      { data: 'pr.0.12'         }, // 11
-      { data: 'probaccpr'       }, // 12
-      { data: 'gear.pgd20'      }, // 13
-      { data: 'gear.0.03'       }, // 14
-      { data: 'gear.0.08'       }, // 15
-      { data: 'gear.0.12'       }, // 16
-      { data: 'gepr.uni'        }, // 17
-      { data: 'gepr.gau'        }, // 18
-      { data: 'gepr.lap'        }, // 19
-      { data: 'time'            }  // 20
+      { data: 'dataset',    defaultContent: '' }, // 0
+      { data: 'model',      defaultContent: '' }, // 1
+      { data: 'method',     defaultContent: '' }, // 2
+      { data: 'acc',        defaultContent: '' }, // 3
+
+      // AR
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.ar.pgd10
+      }, // 4
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.ar.pgd20
+      }, // 5
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.ar.cw20
+      }, // 6
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.ar.aa
+      }, // 7
+
+      // PR
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.pr['0.03']
+      }, // 8
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.pr['0.08']
+      }, // 9
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.pr['0.10']
+      }, // 10
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.pr['0.12']
+      }, // 11
+
+      // ProbAccPR
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.probaccpr
+      }, // 12
+
+      // GEAR
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gear.pgd20
+      }, // 13
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gear['0.03']
+      }, // 14
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gear['0.08']
+      }, // 15
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gear['0.12']
+      }, // 16
+
+      // GEPR
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gepr.uni
+      }, // 17
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gepr.gau
+      }, // 18
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.gepr.lap
+      }, // 19
+
+      // Time
+      {
+        data: null,
+        defaultContent: '',
+        render: d => d.time
+      }  // 20
     ],
     pageLength: 25,
     order: [],
     initComplete: function() {
       const api = this.api();
-      const vals = idx => api.column(idx).data().unique().sort().toArray();
+      const vals = i => api.column(i).data().unique().sort().toArray();
 
-      function makeButtons(list, sel, colIdx) {
+      function makeButtons(list, sel, idx) {
         const $c = $(sel).empty();
-        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+        $c.append(`<button class="btn btn-sm me-1 active" data-col="${idx}" data-val="">All</button>`);
         list.forEach(v => {
-          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
+          $c.append(`<button class="btn btn-sm me-1" data-col="${idx}" data-val="${v}">${v}</button>`);
         });
         $c.on('click', 'button', function() {
           $c.find('button').removeClass('active');
           $(this).addClass('active');
-          api.column(colIdx).search($(this).data('val')).draw();
+          api.column(idx).search($(this).data('val')).draw();
         });
       }
 
       makeButtons(vals(0), '#performance-dataset-buttons', 0);
       makeButtons(vals(1), '#performance-model-buttons',   1);
       makeButtons(vals(2), '#performance-method-buttons',  2);
+
+      $('#performance-global-search').on('input', function() {
+        api.search(this.value).draw();
+      });
     }
   });
 });
-
