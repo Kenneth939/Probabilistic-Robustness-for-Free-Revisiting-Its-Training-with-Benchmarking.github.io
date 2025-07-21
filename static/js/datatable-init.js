@@ -135,3 +135,55 @@ $(function() {
   });
 });
 
+// performance-table 初始化
+const perfTable = $('#performance-table').DataTable({
+  dom: 'lfrtip',
+  ajax: {
+    url: 'static/src/data/prbench_table9.json',
+    dataSrc: ''
+  },
+  columns: [
+    { data: 'dataset' },
+    { data: 'model' },
+    { data: 'method' },
+    { data: 'acc' },
+    { data: 'ar.pgd10' },
+    { data: 'ar.pgd20' },
+    { data: 'ar.cw20' },
+    { data: 'ar.aa' },
+    { data: 'pr["0.03"]' },
+    { data: 'pr["0.08"]' },
+    { data: 'pr["0.10"]' },
+    { data: 'pr["0.12"]' },
+    { data: 'probaccpr' },
+    { data: 'gear.pgd20' },
+    { data: 'gear["0.03"]' },
+    { data: 'gear["0.08"]' },
+    { data: 'gear["0.12"]' },
+    { data: 'gepr.uni' },
+    { data: 'gepr.gau' },
+    { data: 'gepr.lap' },
+    { data: 'time' }
+  ],
+  pageLength: 25,
+  order: [],
+  initComplete: function() {
+    const api = this.api();
+    // 填充下拉
+    const col0 = api.column(0).data().unique().sort();
+    const col1 = api.column(1).data().unique().sort();
+    const col2 = api.column(2).data().unique().sort();
+    function fill(sel, vals, idx) {
+      const $s = $(sel).data('column', idx);
+      vals.each(v => $s.append(`<option value="${v}">${v}</option>`));
+      $s.on('change', () => api.column(idx).search($s.val()).draw());
+    }
+    fill('#performance-dataset-filter', col0, 0);
+    fill('#performance-model-filter',   col1, 1);
+    fill('#performance-method-filter',  col2, 2);
+    // 全局搜索
+    $('#performance-global-search').on('input', function() {
+      perfTable.search(this.value).draw();
+    });
+  }
+});
