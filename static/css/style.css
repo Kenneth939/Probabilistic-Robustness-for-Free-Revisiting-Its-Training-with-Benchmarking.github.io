@@ -199,3 +199,66 @@ nav {
   opacity: 0.4;
   pointer-events: none;
 }
+/* —— Performance Table 样式 —— */
+#performance-table {
+  width: 100% !important;
+  font-size: 0.65rem;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* 单元格：极细字体、极小内边距，允许折行断词 */
+#performance-table th,
+#performance-table td {
+  padding: 0.2rem 0.1rem;
+  border: none;
+  color: var(--text-color);
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 表头半透明毛玻璃背景 */
+#performance-table thead {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
+}
+
+/* 悬停效果 */
+#performance-table tbody tr {
+  transition: background 0.2s;
+}
+#performance-table tbody tr:hover {
+  background: rgba(255,255,255,0.5);
+}
+/* —— Performance 表格的按钮组 —— */
+#performance-filter-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
+#performance-filter-controls .btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+#performance-filter-controls .btn-group button {
+  background: var(--btn-bg);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  transition: background 0.3s, transform 0.1s;
+}
+#performance-filter-controls .btn-group button:hover {
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+#performance-filter-controls .btn-group button.active {
+  background: var(--primary-color);
+  color: #fff;
+}
