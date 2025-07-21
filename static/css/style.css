@@ -262,3 +262,6 @@ nav {
   background: var(--primary-color);
   color: #fff;
 }
+.table-container {
+  padding: 0 0.5rem;
+}
