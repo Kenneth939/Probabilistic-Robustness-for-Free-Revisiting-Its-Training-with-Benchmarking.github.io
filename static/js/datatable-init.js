@@ -1,7 +1,7 @@
 // static/js/datatable-init.js
 
 $(function() {
-  // === 原有 Leaderboard 初始化（完全照搬） ===
+  // === 原有 Leaderboard 初始化 ===
   $('#leaderboard-table').DataTable({
     // l = length, f = search, r = processing, t = table, i = info, p = pagination
     dom: 'lfrtip',
@@ -136,7 +136,7 @@ $(function() {
   });
 
 
-  // === 新增 Performance 表格初始化（同样逻辑，不改原有代码体，仅换 ID 和 JSON） ===
+  // === Performance 表格初始化 ===
   $('#performance-table').DataTable({
     dom: 'lfrtip',
     ajax: {
