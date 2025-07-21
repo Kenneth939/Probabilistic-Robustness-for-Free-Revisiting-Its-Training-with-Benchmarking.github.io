@@ -143,6 +143,7 @@ nav {
   border-radius: 10px;
   background: var(--card-bg);
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-collapse: collapse;    /* 合并单元格边距 */
 }
 #leaderboard-table th,
 #leaderboard-table td {
