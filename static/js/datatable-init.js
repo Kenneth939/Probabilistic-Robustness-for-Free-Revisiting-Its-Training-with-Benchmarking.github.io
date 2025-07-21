@@ -135,55 +135,60 @@ $(function() {
   });
 });
 
-// performance-table 初始化
-const perfTable = $('#performance-table').DataTable({
-  dom: 'lfrtip',
-  ajax: {
-    url: 'static/src/data/prbench_table9.json',
-    dataSrc: ''
-  },
-  columns: [
-    { data: 'dataset' },
-    { data: 'model' },
-    { data: 'method' },
-    { data: 'acc' },
-    { data: 'ar.pgd10' },
-    { data: 'ar.pgd20' },
-    { data: 'ar.cw20' },
-    { data: 'ar.aa' },
-    { data: 'pr["0.03"]' },
-    { data: 'pr["0.08"]' },
-    { data: 'pr["0.10"]' },
-    { data: 'pr["0.12"]' },
-    { data: 'probaccpr' },
-    { data: 'gear.pgd20' },
-    { data: 'gear["0.03"]' },
-    { data: 'gear["0.08"]' },
-    { data: 'gear["0.12"]' },
-    { data: 'gepr.uni' },
-    { data: 'gepr.gau' },
-    { data: 'gepr.lap' },
-    { data: 'time' }
-  ],
-  pageLength: 25,
-  order: [],
-  initComplete: function() {
-    const api = this.api();
-    // 填充下拉
-    const col0 = api.column(0).data().unique().sort();
-    const col1 = api.column(1).data().unique().sort();
-    const col2 = api.column(2).data().unique().sort();
-    function fill(sel, vals, idx) {
-      const $s = $(sel).data('column', idx);
-      vals.each(v => $s.append(`<option value="${v}">${v}</option>`));
-      $s.on('change', () => api.column(idx).search($s.val()).draw());
+// 在文件末尾，紧接着 leaderboard 部分
+$(function() {
+  $('#performance-table').DataTable({
+    dom: 'lfrtip',
+    ajax: {
+      url: 'static/src/data/prbench_table9.json',
+      dataSrc: ''
+    },
+    columns: [
+      { data: 'dataset' },     // 0
+      { data: 'model'   },     // 1
+      { data: 'method'  },     // 2
+      { data: 'acc'     },     // 3
+      { data: 'ar.pgd10'        }, // 4
+      { data: 'ar.pgd20'        }, // 5
+      { data: 'ar.cw20'         }, // 6
+      { data: 'ar.aa'           }, // 7
+      { data: 'pr.0.03'         }, // 8
+      { data: 'pr.0.08'         }, // 9
+      { data: 'pr.0.10'         }, // 10
+      { data: 'pr.0.12'         }, // 11
+      { data: 'probaccpr'       }, // 12
+      { data: 'gear.pgd20'      }, // 13
+      { data: 'gear.0.03'       }, // 14
+      { data: 'gear.0.08'       }, // 15
+      { data: 'gear.0.12'       }, // 16
+      { data: 'gepr.uni'        }, // 17
+      { data: 'gepr.gau'        }, // 18
+      { data: 'gepr.lap'        }, // 19
+      { data: 'time'            }  // 20
+    ],
+    pageLength: 25,
+    order: [],
+    initComplete: function() {
+      const api = this.api();
+      const vals = idx => api.column(idx).data().unique().sort().toArray();
+
+      function makeButtons(list, sel, colIdx) {
+        const $c = $(sel).empty();
+        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+        list.forEach(v => {
+          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
+        });
+        $c.on('click', 'button', function() {
+          $c.find('button').removeClass('active');
+          $(this).addClass('active');
+          api.column(colIdx).search($(this).data('val')).draw();
+        });
+      }
+
+      makeButtons(vals(0), '#performance-dataset-buttons', 0);
+      makeButtons(vals(1), '#performance-model-buttons',   1);
+      makeButtons(vals(2), '#performance-method-buttons',  2);
     }
-    fill('#performance-dataset-filter', col0, 0);
-    fill('#performance-model-filter',   col1, 1);
-    fill('#performance-method-filter',  col2, 2);
-    // 全局搜索
-    $('#performance-global-search').on('input', function() {
-      perfTable.search(this.value).draw();
-    });
-  }
+  });
 });
+
