@@ -223,7 +223,7 @@ nav {
 #performance-table {
   width: 100% !important;
   font-size: 0.65rem;
-  table-layout: auto;
+  table-layout: fixed;
   border-radius: 10px;
   background: var(--card-bg);
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
