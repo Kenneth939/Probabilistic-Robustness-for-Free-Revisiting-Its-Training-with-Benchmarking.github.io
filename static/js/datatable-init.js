@@ -138,6 +138,7 @@ $(function() {
 // static/js/datatable-init.js
 $(function() {
   $('#performance-table').DataTable({
+    scrollX: true,
     dom: 'lfrtip',
     ajax: {
       url: 'static/src/data/prbench_table9.json',
