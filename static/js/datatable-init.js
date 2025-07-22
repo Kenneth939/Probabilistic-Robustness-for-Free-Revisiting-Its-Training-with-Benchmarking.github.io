@@ -191,7 +191,15 @@ $(function() {
         data: null, defaultContent: '',
         render: d => d.probacc['0.10']
       },
-
+      {
+        data: null, defaultContent: '',
+        render: d => d.probacc['0.05']
+      },
+      {
+        data: null, defaultContent: '',
+        render: d => d.probacc['0.01']
+      },
+      
       // --- GEAR 列 (你把 ge_ar 当成了 gear) ---
       {
         data: null, defaultContent: '',
