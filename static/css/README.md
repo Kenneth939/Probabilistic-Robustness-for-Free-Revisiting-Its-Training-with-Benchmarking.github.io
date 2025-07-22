@@ -1,6 +1,5 @@
 /* static/css/style.css */
 
-/*———— 变量定义 ————*/
 :root {
   --bg-color: #f2f2f5;
   --card-bg: rgba(255, 255, 255, 0.8);
@@ -9,10 +8,7 @@
   --text-color: #1d1d1f;
 }
 
-/*———— 全局重置 ————*/
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -26,88 +22,76 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/*———— 布局容器 ————*/
+/* 全局容器铺满屏幕，最小左右内边距 */
 .container {
-  /* 全屏宽度，左右最小内边距 */
   max-width: 100% !important;
-  padding: 1rem 1rem !important;
+  padding: 0.5rem 0.5rem !important;
   margin: 0 auto;
 }
 
-/*———— 标题样式 ————*/
+/* 标题居中 */
 h1, h2, h3 {
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   text-align: center;
 }
 
-/*———— 顶部导航 ————*/
+/* 顶部导航 */
 nav {
   backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  position: sticky; top: 0; z-index: 100;
 }
 .navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
 }
 .navbar-brand {
-  font-size: 1.5rem;
-  color: var(--primary-color) !important;
-  text-decoration: none;
+  font-size: 1.3rem; color: var(--primary-color) !important; text-decoration: none;
 }
 .navbar-nav {
-  display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  display: flex; gap: 0.75rem; margin: 0; padding: 0; list-style: none;
 }
 .nav-link {
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
   background: var(--btn-bg);
   color: var(--text-color);
-  font-weight: 500;
+  font-size: 0.9rem;
   transition: background 0.3s;
 }
 .nav-link:hover {
   background: var(--card-bg);
 }
 
-/*———— Abstract & Figures ————*/
+/* Abstract & Figures */
 .text-center img {
   display: block;
-  margin: 1rem auto;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin: 0.75rem auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   max-width: 100%;
   height: auto;
 }
 
-/*———— 筛选按钮组 ————*/
+/* 筛选按钮组 */
 #filter-controls {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin: 1rem 0;
 }
 #filter-controls .btn-group {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 #filter-controls .btn-group button {
   background: var(--btn-bg);
   color: var(--primary-color);
   border: none;
   border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
   transition: background 0.3s, transform 0.1s;
 }
 #filter-controls .btn-group button:hover {
@@ -119,37 +103,36 @@ nav {
   color: #fff;
 }
 
-/*———— DataTables 布局 & 防滚动 ————*/
+/* DataTables 包装器防横向滚动 */
 .dataTables_wrapper {
   width: 100%;
   overflow-x: hidden;
 }
 
-/*———— 全局搜索框 ————*/
+/* 全局搜索框 */
 .dataTables_filter {
   text-align: right;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 .dataTables_filter label {
-  font-weight: 500;
+  font-size: 0.9rem;
   color: var(--text-color);
 }
 .dataTables_filter input {
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0,0,0,0.2);
   border-radius: 6px;
-  padding: 0.4rem 0.6rem;
-  width: 180px;
+  padding: 0.3rem 0.5rem;
+  width: 160px;
   margin-left: 0.5rem;
 }
 
-/*———— “Show X entries” 控件 ————*/
+/* “Show X entries” 控件 */
 .dataTables_length {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-  color: var(--text-color);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
 }
 .dataTables_length label {
   margin: 0;
@@ -157,88 +140,155 @@ nav {
 }
 .dataTables_length select {
   margin: 0 0.5rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(0,0,0,0.2);
   border-radius: 6px;
-  background: #fff;
-  transition: border-color 0.2s;
-}
-.dataTables_length select:focus {
-  outline: none;
-  border-color: var(--primary-color);
+  font-size: 0.9rem;
 }
 
-/*———— 信息文字 ————*/
+/* 信息文字 */
 .dataTables_info {
   margin: 0.5rem 0 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   text-align: left;
 }
 
-/*———— 表格主体 ————*/
+/* 表格主体：完全铺满，极细字体和极小内边距 */
 #leaderboard-table {
   width: 100% !important;
-  font-size: 0.75rem;       /* 缩小字体以避免溢出 */
-  table-layout: fixed;      /* 固定布局使列宽均匀 */
-  border-radius: 12px;
+  font-size: 0.65rem;
+  table-layout: fixed;
+  border-radius: 10px;
   background: var(--card-bg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 #leaderboard-table th,
 #leaderboard-table td {
-  padding: 0.25rem 0.5rem;
+  padding: 0.2rem 0.1rem;
   border: none;
   color: var(--text-color);
   text-align: center;
-  white-space: nowrap;      /* 避免折行 */
+  white-space: normal;      /* 允许换行 */
+  word-break: break-word;    /* 换行断词 */
   overflow: hidden;
   text-overflow: ellipsis;
 }
 #leaderboard-table thead {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
 }
 #leaderboard-table tbody tr {
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 #leaderboard-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255,255,255,0.5);
 }
 
-/*———— 分页 —— 采用 Bootstrap 样式覆盖 ————*/
+/* 分页 */
 .dataTables_wrapper .pagination {
   display: flex;
   justify-content: center;
   list-style: none;
   padding: 0;
-  margin: 0.5rem 0 2rem;
+  margin: 0.5rem 0 1.5rem;
 }
-.dataTables_wrapper .pagination .page-item {
-  margin: 0 0.25rem;
+.dataTables_wrapper .page-item {
+  margin: 0 0.2rem;
 }
-.dataTables_wrapper .pagination .page-link {
-  display: inline-block;
+.dataTables_wrapper .page-link {
   background: var(--btn-bg);
   color: var(--primary-color);
   border: none;
   border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1;
   transition: background 0.2s, transform 0.1s;
 }
-.dataTables_wrapper .pagination .page-link:hover {
-  background: var(--card-bg);
-  transform: translateY(-1px);
-}
-.dataTables_wrapper .pagination .active .page-link {
+.dataTables_wrapper .page-item.active .page-link {
   background: var(--primary-color) !important;
   color: #fff !important;
 }
-.dataTables_wrapper .pagination .disabled .page-link {
-  opacity: 0.5;
+.dataTables_wrapper .page-link:hover {
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+.dataTables_wrapper .page-item.disabled .page-link {
+  opacity: 0.4;
   pointer-events: none;
+}
+
+/* —— Performance Table 样式 —— */
+#performance-table {
+  width: 100% !important;
+  font-size: 0.65rem;
+  table-layout: fixed;
+  border-radius: 10px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* 单元格：极细字体、极小内边距，允许折行断词 */
+#performance-table th,
+#performance-table td {
+  padding: 0.2rem 0.1rem;
+  border: none;
+  color: var(--text-color);
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal;
+}
+
+/* 表头半透明毛玻璃背景 */
+#performance-table thead {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
+}
+
+/* 悬停效果 */
+#performance-table tbody tr {
+  transition: background 0.2s;
+}
+#performance-table tbody tr:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+/* 恢复 Performance 表格左右内边距，与 .container 保持一致 */
+#performance-table_wrapper {
+  padding: 0 0.5rem;
+  margin: 0 auto;
+}
+
+/* —— Performance 表格的按钮组 —— */
+#performance-filter-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
+#performance-filter-controls .btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+#performance-filter-controls .btn-group button {
+  background: var(--btn-bg);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  transition: background 0.3s, transform 0.1s;
+}
+#performance-filter-controls .btn-group button:hover {
+  background: var(--card-bg);
+  transform: translateY(-1px);
+}
+#performance-filter-controls .btn-group button.active {
+  background: var(--primary-color);
+  color: #fff;
 }
 
