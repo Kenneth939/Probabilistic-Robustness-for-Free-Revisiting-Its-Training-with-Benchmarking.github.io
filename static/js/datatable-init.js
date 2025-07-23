@@ -248,37 +248,32 @@ $(function() {
 
     initComplete: function() {
       const api = this.api();
-      const mapVals = idx => api.column(idx).data().unique().sort().toArray();
+      const vals = idx => api.column(idx).data().unique().sort().toArray();
 
-      function makeButtons(vals, sel, colIdx) {
-        const $c = $(sel).empty();
-        $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
-        vals.forEach(v => {
-          $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
+      function makeButtons(list, selector, colIdx) {
+        const $wrap = $(selector).empty();
+        $wrap.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
+        list.forEach(v => {
+          $wrap.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
-        $c.on('click', 'button', function() {
+        $wrap.on('click','button', function(){
           const $btn = $(this);
-          const val  = $btn.data('val');
-          const column = api.column($btn.data('col'));
-
-          // 切换按钮样式
-          $c.find('button').removeClass('active');
+          $wrap.find('button').removeClass('active');
           $btn.addClass('active');
-
-          // 使用正则完全匹配，关闭 smart 搜索
-          if (val === '') {
-            column.search('').draw();
-          } else {
-            // escape 正则元字符，再前后加 ^$ 完全匹配
+          const val = $btn.data('val');
+          // 完全匹配（非 smart）：
+          const col = api.column(colIdx);
+          if (!val) col.search('').draw();
+          else {
             const esc = $.fn.dataTable.util.escapeRegex(val);
-            column.search('^' + esc + '$', true, false).draw();
+            col.search('^'+esc+'$', true, false).draw();
           }
         });
       }
 
-      makeButtons(mapVals(0), '#performance-dataset-buttons', 0);
-      makeButtons(mapVals(1), '#performance-model-buttons',   1);
-      makeButtons(mapVals(2), '#performance-method-buttons',  2);
+      makeButtons(vals(0), '#performance-dataset-buttons', 0);
+      makeButtons(vals(1), '#performance-model-buttons',   1);
+      makeButtons(vals(2), '#performance-method-buttons',  2);
       
       // 如果你还要全局搜索
       $('#performance-global-search').on('input', function() {
