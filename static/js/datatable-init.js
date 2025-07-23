@@ -112,8 +112,7 @@ $(function() {
     // 初始化完成后，为前三列创建按钮过滤
     initComplete: function() {
       const api = this.api();
-      const mapVals = idx =>
-        api.column(idx).data().unique().sort().toArray();
+      const mapVals = idx => api.column(idx).data().unique().sort().toArray();
 
       function makeButtons(vals, sel, colIdx) {
         const $c = $(sel).empty();
@@ -122,9 +121,22 @@ $(function() {
           $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
         $c.on('click', 'button', function() {
+          const $btn = $(this);
+          const val  = $btn.data('val');
+          const column = api.column($btn.data('col'));
+
+          // 切换按钮样式
           $c.find('button').removeClass('active');
-          $(this).addClass('active');
-          api.column(colIdx).search($(this).data('val')).draw();
+          $btn.addClass('active');
+
+          // 使用正则完全匹配，关闭 smart 搜索
+          if (val === '') {
+            column.search('').draw();
+          } else {
+            // escape 正则元字符，再前后加 ^$ 完全匹配
+            const esc = $.fn.dataTable.util.escapeRegex(val);
+            column.search('^' + esc + '$', true, false).draw();
+          }
         });
       }
 
