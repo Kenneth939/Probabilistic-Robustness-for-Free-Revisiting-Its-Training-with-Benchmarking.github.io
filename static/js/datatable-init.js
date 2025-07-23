@@ -248,25 +248,38 @@ $(function() {
 
     initComplete: function() {
       const api = this.api();
-      const vals = idx => api.column(idx).data().unique().sort().toArray();
+      const mapVals = idx => api.column(idx).data().unique().sort().toArray();
 
-      function makeButtons(list, sel, colIdx) {
+      function makeButtons(vals, sel, colIdx) {
         const $c = $(sel).empty();
         $c.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
-        list.forEach(v => {
+        vals.forEach(v => {
           $c.append(`<button class="btn btn-sm me-1" data-col="${colIdx}" data-val="${v}">${v}</button>`);
         });
         $c.on('click', 'button', function() {
+          const $btn = $(this);
+          const val  = $btn.data('val');
+          const column = api.column($btn.data('col'));
+
+          // 切换按钮样式
           $c.find('button').removeClass('active');
-          $(this).addClass('active');
-          api.column(colIdx).search($(this).data('val')).draw();
+          $btn.addClass('active');
+
+          // 使用正则完全匹配，关闭 smart 搜索
+          if (val === '') {
+            column.search('').draw();
+          } else {
+            // escape 正则元字符，再前后加 ^$ 完全匹配
+            const esc = $.fn.dataTable.util.escapeRegex(val);
+            column.search('^' + esc + '$', true, false).draw();
+          }
         });
       }
 
-      makeButtons(vals(0), '#performance-dataset-buttons', 0);
-      makeButtons(vals(1), '#performance-model-buttons',   1);
-      makeButtons(vals(2), '#performance-method-buttons',  2);
-
+      makeButtons(mapVals(0), '#dataset-buttons', 0);
+      makeButtons(mapVals(1), '#model-buttons',   1);
+      makeButtons(mapVals(2), '#method-buttons',  2);
+      
       // 如果你还要全局搜索
       $('#performance-global-search').on('input', function() {
         api.search(this.value).draw();
