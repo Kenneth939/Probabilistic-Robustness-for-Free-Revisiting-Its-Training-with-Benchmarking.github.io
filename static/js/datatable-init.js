@@ -276,9 +276,9 @@ $(function() {
         });
       }
 
-      makeButtons(mapVals(0), '#dataset-buttons', 0);
-      makeButtons(mapVals(1), '#model-buttons',   1);
-      makeButtons(mapVals(2), '#method-buttons',  2);
+      makeButtons(mapVals(0), '#performance-dataset-buttons', 0);
+      makeButtons(mapVals(1), '#performance-model-buttons',   1);
+      makeButtons(mapVals(2), '#performance-method-buttons',  2);
       
       // 如果你还要全局搜索
       $('#performance-global-search').on('input', function() {
