@@ -194,6 +194,20 @@
     <tbody></tbody>
   </table>
 
+  <!-- —— Dataset 选择按钮 —— -->
+  <div class="container mt-5">
+    <h2 class="text-center">Select Dataset</h2>
+    <div id="chart-dataset-buttons" class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+      <!-- JS 动态填充按钮 -->
+    </div>
+  </div>
+
+  <!-- —— 折线图容器 —— -->
+  <div class="container">
+    <div id="charts-container" class="row gy-4">
+      <!-- JS 会在这里插入每个模型对应的 <div class="col-md-4"><canvas>… -->
+    </div>
+  </div>
   
   <!-- Contribute -->
   <div class="container" id="contribute">
@@ -223,6 +237,10 @@
   <!-- DataTables 初始化脚本 -->
   <script src="static/js/datatable-init.js"></script>
   
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2"></script>
+  <script src="static/js/chart-init.js"></script>
   <!-- JS -->
   <script src="static/js/scroll.js"></script>
 </body>
