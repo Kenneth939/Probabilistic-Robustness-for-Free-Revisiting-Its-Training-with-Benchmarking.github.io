@@ -194,18 +194,31 @@
     <tbody></tbody>
   </table>
 
-  <!-- —— Dataset 选择按钮 —— -->
+  <!-- —— 数据集 & 模型 选择 —— -->
   <div class="container mt-5">
-    <h2 class="text-center">Select Dataset</h2>
-    <div id="chart-dataset-buttons" class="d-flex justify-content-center flex-wrap gap-2 mb-4">
-      <!-- JS 动态填充按钮 -->
+    <h2 class="text-center">Select Dataset & Model</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-3 my-3">
+      <div>
+        <strong>Dataset:</strong>
+        <div id="chart-ds-buttons" class="btn-group" role="group"></div>
+      </div>
+      <div>
+        <strong>Model:</strong>
+        <div id="chart-model-buttons" class="btn-group" role="group"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- —— 折线图容器 —— -->
-  <div class="container">
-    <div id="charts-container" class="row gy-4">
-      <!-- JS 会在这里插入每个模型对应的 <div class="col-md-4"><canvas>… -->
+  <!-- —— 三张折线图画布 —— -->
+    <div class="row gx-4 gy-4" id="chart-row">
+      <div class="col-md-4">
+        <canvas id="chart-pr"></canvas>
+      </div>
+      <div class="col-md-4">
+        <canvas id="chart-probacc"></canvas>
+      </div>
+      <div class="col-md-4">
+        <canvas id="chart-gepr"></canvas>
+      </div>
     </div>
   </div>
   
