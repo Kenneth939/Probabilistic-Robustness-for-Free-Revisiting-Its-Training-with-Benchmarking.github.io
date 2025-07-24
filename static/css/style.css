@@ -349,3 +349,14 @@ nav {
   font-weight: bold;
   color: var(--primary-color);
 }
+
+/* 限制三张图的高度，并强制 canvas 填满 */
+.chart-container {
+  height: 240px;       /* 你可以根据需要微调这个高度 */
+  padding: 0.5rem;     /* 可选：给点内边距 */
+}
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
