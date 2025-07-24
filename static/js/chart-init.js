@@ -1,144 +1,136 @@
 // static/js/chart-init.js
 document.addEventListener('DOMContentLoaded', () => {
-  const DATA_URL = 'static/src/data/prbench_table9.json';
-  const RHO_LEVELS = ['0.01','0.05','0.10'];
+  const DATA_URL   = 'static/src/data/prbench_table9.json';
+  const GAMMAS     = ['0.03','0.08','0.10','0.12'];
+  const RHO_LEVELS = ['0.10','0.05','0.01'];
 
-  // 存放当前所有的 Chart 实例，以便销毁
-  const chartPool = [];
+  // 按钮容器
+  const dsBtns    = document.getElementById('chart-ds-buttons');
+  const modelBtns = document.getElementById('chart-model-buttons');
+  // 画布 Context
+  const ctxPR     = document.getElementById('chart-pr').getContext('2d');
+  const ctxProb   = document.getElementById('chart-probacc').getContext('2d');
+  const ctxGEPR   = document.getElementById('chart-gepr').getContext('2d');
 
-  // 1) 获取 JSON
+  // 当前图表实例，用于销毁
+  const charts = [];
+
   fetch(DATA_URL)
     .then(r => r.json())
     .then(allData => {
-      // 提取所有可选 dataset
+      // 1. 生成 Dataset 按钮
       const datasets = Array.from(new Set(allData.map(d => d.dataset)));
-      const btnContainer = document.getElementById('chart-dataset-buttons');
-
-      // 生成 dataset 按钮
       datasets.forEach(ds => {
         const btn = document.createElement('button');
-        btn.className = 'btn btn-outline-primary';
+        btn.type        = 'button';
+        btn.className   = 'btn btn-outline-primary';
         btn.textContent = ds;
-        btn.dataset.ds = ds;
-        btnContainer.appendChild(btn);
+        btn.dataset.ds  = ds;
+        dsBtns.appendChild(btn);
       });
 
-      // 点击按钮时高亮 & 渲染
-      btnContainer.addEventListener('click', e => {
+      // 2. 点击 Dataset → 生成 Model 按钮
+      dsBtns.addEventListener('click', e => {
         if (e.target.tagName !== 'BUTTON') return;
-        // 切换 active 样式
-        btnContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        dsBtns.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
         e.target.classList.add('active');
-        // 渲染该 dataset 的图
-        renderChartsForDataset(allData, e.target.dataset.ds);
+        const selDS = e.target.dataset.ds;
+
+        // 筛出 models
+        const models = Array.from(new Set(
+          allData.filter(d=>d.dataset===selDS).map(d=>d.model)
+        ));
+
+        modelBtns.innerHTML = '';
+        models.forEach(m => {
+          const mb = document.createElement('button');
+          mb.type         = 'button';
+          mb.className    = 'btn btn-outline-secondary';
+          mb.textContent  = m;
+          mb.dataset.model= m;
+          modelBtns.appendChild(mb);
+        });
+
+        // 自动点击第一个 Model
+        setTimeout(()=>{
+          modelBtns.querySelector('button')?.click();
+        },0);
       });
 
-      // 默认渲染第一个
-      btnContainer.querySelector('button').click();
-    });
+      // 3. 点击 Model → 渲染三张图
+      modelBtns.addEventListener('click', e => {
+        if (e.target.tagName !== 'BUTTON') return;
+        modelBtns.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+        e.target.classList.add('active');
 
-  function renderChartsForDataset(allData, dataset) {
-    // 先销毁旧图表
-    chartPool.splice(0).forEach(ch => ch.destroy());
-    // 清空容器
-    const row = document.getElementById('charts-container');
-    row.innerHTML = '';
+        const selDS    = dsBtns.querySelector('button.active')?.dataset.ds;
+        const selModel = e.target.dataset.model;
+        if (!selDS || !selModel) return;
 
-    // 筛出该 dataset 记录，并按 model 分组
-    const dsData = allData.filter(d => d.dataset === dataset);
-    const models = Array.from(new Set(dsData.map(d => d.model)));
+        // 销毁旧图
+        charts.splice(0).forEach(c=>c.destroy());
 
-    models.forEach(model => {
-      // 每个 model 一列（col-md-4）
-      const col = document.createElement('div');
-      col.className = 'col-md-4';
-      // 创建 canvas
-      const canvas = document.createElement('canvas');
-      const cid = `chart-${dataset}-${model}`.replace(/\W/g,'');
-      canvas.id = cid;
-      col.appendChild(canvas);
-      // 标题
-      const title = document.createElement('h5');
-      title.className = 'text-center mb-2';
-      title.textContent = `${dataset} — ${model}`;
-      col.insertBefore(title, canvas);
-      row.appendChild(col);
+        // 提取该 dataset & model 的条目
+        const recs = allData.filter(d=>d.dataset===selDS && d.model===selModel);
+        const methods = Array.from(new Set(recs.map(r=>r.method)));
 
-      // 找到该 model 下所有 methods
-      const recs = dsData.filter(d => d.model === model);
-      const methods = Array.from(new Set(recs.map(r => r.method)));
-
-      // 三个子图：PR, ProbAcc, GEPR
-      // 为简洁，把三段配置合并在一个大 options 数组里：
-      const chartTypes = [
-        {
-          label: 'PR(γ)%', 
-          extract: r => RHO_LEVELS.map(g => r.pr[g]),
-          yLabel: 'PR(γ)%'
-        },
-        {
-          label: 'ProbAcc(ρ,γ=0.03)%', 
-          extract: r => RHO_LEVELS.map(g => r.probacc[g]),
-          yLabel: 'ProbAcc(ρ,γ=0.03)%'
-        },
-        {
-          label: 'GEPR(γ)%', 
-          extract: r => RHO_LEVELS.map(g => r.ge_pr[g]),
-          yLabel: 'GEPR(γ)%'
-        }
-      ];
-
-      // 对于每个子图都生成一个 Chart 实例
-      chartTypes.forEach((ct, idx) => {
-        // 若要在同一 canvas 上画三张子图，可考虑子画布或 split，但这里我们简单
-        // 依次把三个折线绘在同一个 canvas 上，仅靠不同样式区分
-        const dsList = methods.map(m => {
-          const rec = recs.find(r => r.method === m);
+        // 构造三个 datasets 列表
+        const dsPR = methods.map(m=>{
+          const r = recs.find(r=>r.method===m);
           return {
             label: m,
-            data: rec ? ct.extract(rec) : RHO_LEVELS.map(_=>null),
-            borderDash: idx===1 ? [5,5] : [],   // 第二条虚线
+            data: GAMMAS.map(g=> r?.pr[g] ?? null),
+            tension: 0.3
+          };
+        });
+        const dsProb = methods.map(m=>{
+          const r = recs.find(r=>r.method===m);
+          return {
+            label: m,
+            data: RHO_LEVELS.map(ρ=> r?.probacc[ρ] ?? null),
+            borderDash: [5,3],
+            tension: 0.3
+          };
+        });
+        const dsGEPR = methods.map(m=>{
+          const r = recs.find(r=>r.method===m);
+          return {
+            label: m,
+            data: GAMMAS.map(g=> r?.ge_pr[g] ?? null),
+            borderDash: [2,2],
             tension: 0.3
           };
         });
 
-        const chart = new Chart(canvas.getContext('2d'), {
+        // 公共配置工厂
+        const makeConfig = (labels, datasets, title, yLabel) => ({
           type: 'line',
-          data: {
-            labels: RHO_LEVELS,
-            datasets: dsList
-          },
+          data: { labels, datasets },
           options: {
             responsive: true,
             plugins: {
-              title: {
-                display: true,
-                text: ct.label,
-                font: { size: 14 }
-              },
-              legend: { position: 'bottom' },
+              title: { display: true, text: title, font:{size:16} },
+              legend: { position: 'bottom', labels:{boxWidth:12} },
               zoom: {
-                zoom: {
-                  wheel: { enabled: true },
-                  pinch: { enabled: true },
-                  mode: 'x'
-                },
-                pan: { enabled: true, mode: 'x' }
+                zoom: { wheel:{enabled:true}, pinch:{enabled:true}, mode:'x' },
+                pan:  { enabled:true, mode:'x' }
               }
             },
             scales: {
-              x: {
-                title: { display: true, text: 'ρ / γ' }
-              },
-              y: {
-                title: { display: true, text: ct.yLabel }
-              }
+              x: { title:{display:true, text: title.includes('ProbAcc') ? 'Perturbation Radius ρ' : 'Perturbation Radius γ'} },
+              y: { title:{display:true, text: yLabel} }
             }
           }
         });
 
-        chartPool.push(chart);
+        // 绘图
+        charts.push(new Chart(ctxPR,   makeConfig(GAMMAS,    dsPR,   'PR(γ)%',            'Accuracy %')));
+        charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%','Accuracy %')));
+        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS,    dsGEPR, 'GEPR(γ)%',          'Error %')));
       });
-    });
-  }
+
+      // 默认选第一个 Dataset
+      dsBtns.querySelector('button')?.click();
+    })
+    .catch(err => console.error('can not load data', err));
 });
