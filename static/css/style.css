@@ -363,7 +363,7 @@ nav {
 .chart-item {
   flex: 1 1 calc(33.333% - 1rem);
   min-width: 240px;
-  height: 1000px;       /* ← 这里调节你想要的“固定高度” */
+  height: 350px;       /* ← 这里调节你想要的“固定高度” */
   position: relative;   /* 让 canvas 绝对填充 */
 }
 
