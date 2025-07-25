@@ -351,22 +351,27 @@ nav {
 }
 
 
-/* ---- 三图横排 & 等比缩放 ---- */
+/* —— 三图横排 & 固定高度 —— */
 #chart-row {
   display: flex;
-  gap: 1rem;              /* 子图间距 */
-  flex-wrap: wrap;        /* 小屏幕时会自动换行 */
+  gap: 1rem;
+  flex-wrap: wrap;
   margin-top: 2rem;
 }
 
-/* 每个子图按 1/3 宽度分配，最小宽度防止画面过小 */
+/* 每图占 1/3 宽度，且强制指定一个最小和固定高度 */
 .chart-item {
   flex: 1 1 calc(33.333% - 1rem);
   min-width: 240px;
+  height: 350px;       /* ← 这里调节你想要的“固定高度” */
+  position: relative;   /* 让 canvas 绝对填充 */
 }
 
-/* 让 canvas 宽度撑满父容器，高度自动保持比例 */
+/* canvas 取消自动纵横比，撑满父容器 */
 .chart-item canvas {
+  position: absolute;
+  top: 0; left: 0;
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
 }
+
