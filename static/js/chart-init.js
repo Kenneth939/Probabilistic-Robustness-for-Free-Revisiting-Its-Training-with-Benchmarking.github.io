@@ -5,19 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const GAMMAS     = ['0.03', '0.08', '0.10', '0.12'];
   const RHO_LEVELS = ['0.10', '0.05', '0.01'];
 
-  // 预定义 10 种互补色
-  const PALETTE = [
-    'rgba(31,119,180,1)',   // blue
-    'rgba(255,127,14,1)',   // orange
-    'rgba(44,160,44,1)',    // green
-    'rgba(214,39,40,1)',    // red
-    'rgba(148,103,189,1)',  // purple
-    'rgba(140,86,75,1)',    // brown
-    'rgba(227,119,194,1)',  // pink
-    'rgba(127,127,127,1)',  // gray
-    'rgba(188,189,34,1)',   // olive
-    'rgba(23,190,207,1)'    // cyan
-  ];
+  // —— 为每个 method 定义固定颜色 —— 
+  const COLOR_MAP = {
+    'ERM':           'rgba(31,119,180,1)',   // blue
+    'Corr_Uniform':  'rgba(255,127,14,1)',   // orange
+    'CVaR':          'rgba(44,160,44,1)',    // green
+    'PGD':           'rgba(214,39,40,1)',    // red
+    'TRADES':        'rgba(148,103,189,1)',  // purple
+    'MART':          'rgba(140,86,75,1)',    // brown
+    'ALP':           'rgba(227,119,194,1)',  // pink
+    'CLP':           'rgba(127,127,127,1)',  // grey
+    'KL-PGD':        'rgba(188,189,34,1)'    // yellow
+  };
 
   // 按钮容器 & 标题
   const dsBtns     = document.getElementById('chart-ds-buttons');
@@ -58,12 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ));
 
         modelBtns.innerHTML = '';
-        models.forEach((m, idx) => {
+        models.forEach(m => {
           const mb = document.createElement('button');
-          mb.type         = 'button';
-          mb.className    = 'btn btn-outline-secondary';
-          mb.textContent  = m;
-          mb.dataset.model= m;
+          mb.type          = 'button';
+          mb.className     = 'btn btn-outline-secondary';
+          mb.textContent   = m;
+          mb.dataset.model = m;
           modelBtns.appendChild(mb);
         });
 
@@ -81,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selDS    = dsBtns.querySelector('button.active')?.dataset.ds;
         const selModel = e.target.dataset.model;
-
-        // 更新标题
         titleEl.textContent = selDS && selModel
           ? `${selDS} with ${selModel}`
           : '';
@@ -96,41 +93,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const recs = allData.filter(d => d.dataset === selDS && d.model === selModel);
         const methods = Array.from(new Set(recs.map(r => r.method)));
 
-        // 构造三个图的数据集
-        const dsPR = methods.map((m, idx) => {
+        // 构造 three datasets
+        const dsPR = methods.map(m => {
           const r = recs.find(r => r.method === m);
-          const color = PALETTE[idx % PALETTE.length];
+          const c = COLOR_MAP[m] || 'rgba(0,0,0,1)';
           return {
             label: m,
             data: GAMMAS.map(g => r?.pr[g] ?? null),
-            borderColor: color,
-            backgroundColor: color.replace(/1\)$/, '0.1)'), 
+            borderColor: c,
+            backgroundColor: c.replace(/1\)$/, '0.1)'),
             tension: 0.3
           };
         });
 
-        const dsProb = methods.map((m, idx) => {
+        const dsProb = methods.map(m => {
           const r = recs.find(r => r.method === m);
-          const color = PALETTE[idx % PALETTE.length];
+          const c = COLOR_MAP[m] || 'rgba(0,0,0,1)';
           return {
             label: m,
             data: RHO_LEVELS.map(rho => r?.probacc[rho] ?? null),
-            borderColor: color,
-            backgroundColor: color.replace(/1\)$/, '0.1)'),
-            borderDash: [5, 3],
+            borderColor: c,
+            backgroundColor: c.replace(/1\)$/, '0.1)'),
+            borderDash: [5,3],
             tension: 0.3
           };
         });
 
-        const dsGEPR = methods.map((m, idx) => {
+        const dsGEPR = methods.map(m => {
           const r = recs.find(r => r.method === m);
-          const color = PALETTE[idx % PALETTE.length];
+          const c = COLOR_MAP[m] || 'rgba(0,0,0,1)';
           return {
             label: m,
             data: GAMMAS.map(g => r?.ge_pr[g] ?? null),
-            borderColor: color,
-            backgroundColor: color.replace(/1\)$/, '0.1)'),
-            borderDash: [2, 2],
+            borderColor: c,
+            backgroundColor: c.replace(/1\)$/, '0.1)'),
+            borderDash: [2,2],
             tension: 0.3
           };
         });
@@ -145,14 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             plugins: {
               title: { display: true, text: title, font: { size: 16 } },
               legend: { position: 'bottom', labels: { boxWidth: 12 } },
-              zoom: {
-                zoom: {
-                  wheel: { enabled: true },
-                  pinch: { enabled: true },
-                  mode: 'x'
-                },
-                pan: { enabled: true, mode: 'x' }
-              }
+              zoom: { zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x'}, pan:{enabled:true,mode:'x'} }
             },
             scales: {
               x: { title: { display: true, text: xLabel } },
@@ -162,19 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 绘图
-        charts.push(new Chart(ctxPR,   makeConfig(
-          GAMMAS, dsPR,   'PR(γ)%',            'Accuracy %', 'Perturbation Radius γ'
-        )));
-        charts.push(new Chart(ctxProb, makeConfig(
-          RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%', 'Accuracy %', 'Perturbation Radius ρ'
-        )));
-        charts.push(new Chart(ctxGEPR, makeConfig(
-          GAMMAS, dsGEPR, 'GEPR(γ)%',          'Error %',     'Perturbation Radius γ'
-        )));
+        charts.push(new Chart(ctxPR,   makeConfig(GAMMAS, dsPR,   'PR(γ)%',            'Accuracy %',       'γ')));
+        charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%','Accuracy %',       'ρ')));
+        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS, dsGEPR, 'GEPR(γ)%',          'Generalisation Error %','γ')));
       });
 
-      // 默认选中第一个 Dataset，触发初始渲染
+      // 默认选中第一个 Dataset
       dsBtns.querySelector('button')?.click();
     })
-    .catch(err => console.error('无法加载数据:', err));
+    .catch(err => console.error('unable to load data:', err));
 });
