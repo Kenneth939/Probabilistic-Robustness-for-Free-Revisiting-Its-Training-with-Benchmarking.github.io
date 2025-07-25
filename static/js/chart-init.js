@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
           type: 'line',
           data: { labels, datasets },
           options: {
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             responsive: true,
             plugins: {
               title: { display: true, text: title, font: { size: 16 } },
