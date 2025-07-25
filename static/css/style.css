@@ -377,37 +377,40 @@ nav {
 
 /* —— Chart 标题 —— */
 #chart-title {
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
+  text-align: center;              /* 居中 */
+  margin-bottom: 0.75rem;          /* 与其他模块间距一致 */
+  font-size: 1.25rem;              /* 对应 .h4 */
+  font-weight: 600;                /* 加粗 */
+  color: var(--primary-color);     /* 主色调 */
 }
 
 /* —— Dataset / Model 按钮组 —— */
 #chart-ds-buttons,
 #chart-model-buttons {
   display: inline-flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-#chart-ds-buttons .btn,
-#chart-model-buttons .btn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
+#chart-ds-buttons button,
+#chart-model-buttons button {
   background: var(--btn-bg);
-  color: var(--text-color);
-  font-size: 0.9rem;
-  border: 1px solid var(--primary-color);
-  transition: background 0.2s, color 0.2s;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  transition: background 0.3s, transform 0.1s;
 }
 
-#chart-ds-buttons .btn:hover,
-#chart-model-buttons .btn:hover {
+#chart-ds-buttons button:hover,
+#chart-model-buttons button:hover {
   background: var(--card-bg);
+  transform: translateY(-1px);
 }
 
-#chart-ds-buttons .btn.active,
-#chart-model-buttons .btn.active {
+#chart-ds-buttons button.active,
+#chart-model-buttons button.active {
   background: var(--primary-color);
   color: #fff;
 }
