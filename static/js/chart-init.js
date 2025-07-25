@@ -5,7 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const GAMMAS     = ['0.03', '0.08', '0.10', '0.12'];
   const RHO_LEVELS = ['0.10', '0.05', '0.01'];
 
-  // 按钮容器
+  // 预定义 10 种互补色
+  const PALETTE = [
+    'rgba(31,119,180,1)',   // blue
+    'rgba(255,127,14,1)',   // orange
+    'rgba(44,160,44,1)',    // green
+    'rgba(214,39,40,1)',    // red
+    'rgba(148,103,189,1)',  // purple
+    'rgba(140,86,75,1)',    // brown
+    'rgba(227,119,194,1)',  // pink
+    'rgba(127,127,127,1)',  // gray
+    'rgba(188,189,34,1)',   // olive
+    'rgba(23,190,207,1)'    // cyan
+  ];
+
+  // 按钮容器 & 标题
   const dsBtns     = document.getElementById('chart-ds-buttons');
   const modelBtns  = document.getElementById('chart-model-buttons');
   const titleEl    = document.getElementById('chart-title');
@@ -15,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ctxProb    = document.getElementById('chart-probacc').getContext('2d');
   const ctxGEPR    = document.getElementById('chart-gepr').getContext('2d');
 
-  // 存储当前的 Chart 实例，以便销毁
+  // 当前图表实例，用于销毁
   const charts = [];
 
   fetch(DATA_URL)
@@ -32,23 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
         dsBtns.appendChild(btn);
       });
 
-      // 2. 点击 Dataset → 生成对应 Model 按钮
+      // 2. 点击 Dataset → 生成 Model 按钮
       dsBtns.addEventListener('click', e => {
         if (e.target.tagName !== 'BUTTON') return;
         dsBtns.querySelectorAll('button').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
 
         const selDS = e.target.dataset.ds;
-        // 筛出该 dataset 下的所有 model
         const models = Array.from(new Set(
-          allData
-            .filter(d => d.dataset === selDS)
-            .map(d => d.model)
+          allData.filter(d => d.dataset === selDS).map(d => d.model)
         ));
 
-        // 清空旧按钮
         modelBtns.innerHTML = '';
-        models.forEach(m => {
+        models.forEach((m, idx) => {
           const mb = document.createElement('button');
           mb.type         = 'button';
           mb.className    = 'btn btn-outline-secondary';
@@ -57,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
           modelBtns.appendChild(mb);
         });
 
-        // 自动点击第一个 Model，以触发初次绘图
+        // 自动点击第一个 Model
         setTimeout(() => {
           modelBtns.querySelector('button')?.click();
         }, 0);
       });
 
-      // 3. 点击 Model → 更新标题 & 绘制三张图
+      // 3. 点击 Model → 更新标题 & 绘图
       modelBtns.addEventListener('click', e => {
         if (e.target.tagName !== 'BUTTON') return;
         modelBtns.querySelectorAll('button').forEach(b => b.classList.remove('active'));
@@ -71,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selDS    = dsBtns.querySelector('button.active')?.dataset.ds;
         const selModel = e.target.dataset.model;
+
         // 更新标题
         titleEl.textContent = selDS && selModel
           ? `${selDS} with ${selModel}`
@@ -81,41 +92,50 @@ document.addEventListener('DOMContentLoaded', () => {
         // 销毁旧图
         charts.splice(0).forEach(c => c.destroy());
 
-        // 筛出符合 dataset + model 的记录
+        // 筛选记录
         const recs = allData.filter(d => d.dataset === selDS && d.model === selModel);
         const methods = Array.from(new Set(recs.map(r => r.method)));
 
-        // 准备三个图表的数据集
-        const dsPR = methods.map(m => {
+        // 构造三个图的数据集
+        const dsPR = methods.map((m, idx) => {
           const r = recs.find(r => r.method === m);
+          const color = PALETTE[idx % PALETTE.length];
           return {
             label: m,
             data: GAMMAS.map(g => r?.pr[g] ?? null),
+            borderColor: color,
+            backgroundColor: color.replace(/1\)$/, '0.1)'), 
             tension: 0.3
           };
         });
 
-        const dsProb = methods.map(m => {
+        const dsProb = methods.map((m, idx) => {
           const r = recs.find(r => r.method === m);
+          const color = PALETTE[idx % PALETTE.length];
           return {
             label: m,
             data: RHO_LEVELS.map(rho => r?.probacc[rho] ?? null),
+            borderColor: color,
+            backgroundColor: color.replace(/1\)$/, '0.1)'),
             borderDash: [5, 3],
             tension: 0.3
           };
         });
 
-        const dsGEPR = methods.map(m => {
+        const dsGEPR = methods.map((m, idx) => {
           const r = recs.find(r => r.method === m);
+          const color = PALETTE[idx % PALETTE.length];
           return {
             label: m,
             data: GAMMAS.map(g => r?.ge_pr[g] ?? null),
+            borderColor: color,
+            backgroundColor: color.replace(/1\)$/, '0.1)'),
             borderDash: [2, 2],
             tension: 0.3
           };
         });
 
-        // 通用配置工厂
+        // 配置工厂
         const makeConfig = (labels, datasets, title, yLabel, xLabel) => ({
           type: 'line',
           data: { labels, datasets },
@@ -141,27 +161,20 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        // 实例化三张图
+        // 绘图
         charts.push(new Chart(ctxPR,   makeConfig(
-          GAMMAS, dsPR,
-          'PR(γ)%',            'Accuracy %',
-          'Perturbation Radius γ'
+          GAMMAS, dsPR,   'PR(γ)%',            'Accuracy %', 'Perturbation Radius γ'
         )));
         charts.push(new Chart(ctxProb, makeConfig(
-          RHO_LEVELS, dsProb,
-          'ProbAcc(ρ,γ=0.03)%', 'Accuracy %',
-          'Perturbation Radius ρ'
+          RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%', 'Accuracy %', 'Perturbation Radius ρ'
         )));
         charts.push(new Chart(ctxGEPR, makeConfig(
-          GAMMAS, dsGEPR,
-          'GEPR(γ)%',          'Error %',
-          'Perturbation Radius γ'
+          GAMMAS, dsGEPR, 'GEPR(γ)%',          'Error %',     'Perturbation Radius γ'
         )));
       });
 
-      // 默认选中第一个 Dataset
+      // 默认选中第一个 Dataset，触发初始渲染
       dsBtns.querySelector('button')?.click();
     })
     .catch(err => console.error('无法加载数据:', err));
 });
-
