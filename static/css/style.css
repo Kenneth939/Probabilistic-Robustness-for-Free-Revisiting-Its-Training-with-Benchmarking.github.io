@@ -350,13 +350,22 @@ nav {
   color: var(--primary-color);
 }
 
-/* 限制三张图的高度，并强制 canvas 填满 */
-.chart-container {
-  height: 240px;       /* 你可以根据需要微调这个高度 */
-  padding: 0.5rem;     /* 可选：给点内边距 */
+/* ---- 三图横排 & 等比缩放 ---- */
+#chart-row {
+  display: flex;
+  gap: 1rem;              /* 子图间距 */
+  flex-wrap: wrap;        /* 小屏幕时会自动换行 */
+  margin-top: 2rem;
 }
-.chart-container canvas {
+
+/* 每个子图按 1/3 宽度分配，最小宽度防止画面过小 */
+.chart-item {
+  flex: 1 1 calc(33.333% - 1rem);
+  min-width: 240px;
+}
+
+/* 让 canvas 宽度撑满父容器，高度自动保持比例 */
+.chart-item canvas {
   width: 100% !important;
-  height: 100% !important;
-  display: block;
+  height: auto !important;
 }
