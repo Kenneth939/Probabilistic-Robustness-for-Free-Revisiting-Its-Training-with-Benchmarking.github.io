@@ -95,30 +95,30 @@ nav {
   height: auto;
 }
 
-/* —— Figures Section 上方两图整体居中（强制不换行） —— */
+/* Figures Section */
 #figures .row {
   display: flex;
-  justify-content: center;  /* 整组居中 */
-  flex-wrap: nowrap;        /* 禁止换行，始终一行 */
-  gap: 2rem;                /* 两图之间留点距离 */
+  justify-content: center;   /* 整组居中 */
+  flex-wrap: nowrap;         /* 禁止换行 */
+  gap: 2rem;                 /* 两图之间留点距离 */
+  padding: 0 5rem;           /* 左右各多留 4rem */
 }
 
-/* 子项根据内容自适应宽度，不再强制占 50% */
 #figures .row > div {
   flex: 0 1 auto;
   width: auto;
   max-width: none;
 }
 
-/* 图片等比例缩小 */
 #figures .figure-img {
   display: block;
   margin: 0 auto;
   width: auto;
   max-width: 100%;
-  max-height: 200px;       /* 根据需求可调整高度 */
+  max-height: 150px;       
   object-fit: contain;
 }
+
 
 
 
