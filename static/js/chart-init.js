@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 绘图
         charts.push(new Chart(ctxPR,   makeConfig(GAMMAS, dsPR,   'PR(γ)%',            'Accuracy %',       'Perturbation Radius γ')));
         charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%','Accuracy %',       'Perturbation Radius ρ')));
-        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS, dsGEPR, 'GEPR(γ)%',          'Generalisation Error %','Perturbation Radius γ')));
+        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS, dsGEPR, 'GEₚᵣ(γ)%',          'Generalisation Error %','Perturbation Radius γ')));
       });
 
       // 默认选中第一个 Dataset
