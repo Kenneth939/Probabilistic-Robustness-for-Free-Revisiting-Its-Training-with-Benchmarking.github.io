@@ -95,6 +95,24 @@ nav {
   height: auto;
 }
 
+/* —— Figures 上方两图横排 & 等比例缩小 —— */
+#figures .row {
+  display: flex;
+  flex-wrap: nowrap;    /* 禁止换行，始终左右并排 */
+}
+#figures .row .col-6 {
+  flex: 0 0 50%;        /* 每个占 50% 宽度 */
+  max-width: 50%;
+}
+#figures .figure-img {
+  width: auto;          /* 保持宽高比 */
+  max-width: 100%;      /* 不超出父容器宽度 */
+  max-height: 200px;    /* 统一最大高度，可按需调整 */
+  object-fit: contain;  /* 保持比例裁剪 */
+  margin: 0 auto;       /* 居中 */
+}
+
+
 /* 筛选按钮组 */
 #filter-controls {
   text-align: center;
