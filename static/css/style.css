@@ -101,7 +101,7 @@ nav {
   justify-content: center;   /* 整组居中 */
   flex-wrap: nowrap;         /* 禁止换行 */
   gap: 2rem;                 /* 两图之间留点距离 */
-  padding: 0 5rem;           /* 左右各多留 4rem */
+  padding: 0 3rem;           /* 左右各多留 3rem */
 }
 
 #figures .row > div {
@@ -115,7 +115,7 @@ nav {
   margin: 0 auto;
   width: auto;
   max-width: 100%;
-  max-height: 175px;       
+  max-height: 200px;       
   object-fit: contain;
 }
 
