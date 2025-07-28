@@ -115,13 +115,9 @@ nav {
   margin: 0 auto;
   width: auto;
   max-width: 100%;
-  max-height: 150px;       
+  max-height: 175px;       
   object-fit: contain;
 }
-
-
-
-
 
 /* 筛选按钮组 */
 #filter-controls {
