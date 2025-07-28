@@ -95,22 +95,30 @@ nav {
   height: auto;
 }
 
-/* —— Figures 上方两图横排 & 等比例缩小 —— */
+/* —— Figures Section 上方两图整体居中 —— */
 #figures .row {
   display: flex;
-  flex-wrap: nowrap;    /* 禁止换行，始终左右并排 */
+  justify-content: center;  /* 整组居中 */
+  flex-wrap: wrap;          /* 如屏幕太窄可换行 */
+  gap: 2rem;                /* 两图之间留点距离 */
 }
-#figures .row .col-6 {
-  flex: 0 0 50%;        /* 每个占 50% 宽度 */
-  max-width: 50%;
+
+/* 让每个子项根据图片自身尺寸伸缩，而不是硬撑到 50% */
+#figures .row > div {
+  flex: 0 1 auto;
+  max-width: none;
+  width: auto;
 }
+
+/* 图片等比例缩小 */
 #figures .figure-img {
-  width: auto;          /* 保持宽高比 */
-  max-width: 100%;      /* 不超出父容器宽度 */
-  max-height: 200px;    /* 统一最大高度，可按需调整 */
-  object-fit: contain;  /* 保持比例裁剪 */
-  margin: 0 auto;       /* 居中 */
+  max-width: 100%;
+  width: auto;
+  max-height: 200px;       /* 根据需要调整 */
+  object-fit: contain;
+  margin: 0 auto;
 }
+
 
 
 /* 筛选按钮组 */
