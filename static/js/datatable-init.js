@@ -144,11 +144,11 @@ $(function() {
       // 插入 Legend 到 top-controls 容器最前面
       const legendHtml = `
         <div class="table-legend">
-          <div class="legend-item"><span class="legend-box box-emr"></span>ERM</div>
-          <div class="legend-item"><span class="legend-box box-ar"></span>PGD (AR)</div>
-          <div class="legend-item"><span class="legend-box box-pr"></span>Corr_* (PR)</div>
+          <div class="legend-item"><span class="legend-box box-emr"></span>Neither AR nor PR methods</div>
+          <div class="legend-item"><span class="legend-box box-ar"></span>AR methods</div>
+          <div class="legend-item"><span class="legend-box box-pr"></span>PR methods</div>
         </div>`;
-      $( api.table().container() ).find('.top-controls').prepend(legendHtml);
+      $( api.table().container() ).find('.table-legend').html(legendHtml);
     }
   });
 
@@ -235,11 +235,11 @@ $(function() {
       // 插入 Legend
       const legendHtml = `
         <div class="table-legend">
-          <div class="legend-item"><span class="legend-box box-emr"></span>ERM</div>
-          <div class="legend-item"><span class="legend-box box-ar"></span>ALP/CLP/KL-PGD/MART/PGD/TRADES</div>
-          <div class="legend-item"><span class="legend-box box-pr"></span>CVaR & Corr_Uniform</div>
+          <div class="legend-item"><span class="legend-box box-emr"></span>Neither AR nor PR methods</div>
+          <div class="legend-item"><span class="legend-box box-ar"></span>AR methods</div>
+          <div class="legend-item"><span class="legend-box box-pr"></span>PR methods</div>
         </div>`;
-      $( api.table().container() ).find('.top-controls').prepend(legendHtml);
+      $( api.table().container() ).find('.table-legend').html(legendHtml);
     }
   });
 
