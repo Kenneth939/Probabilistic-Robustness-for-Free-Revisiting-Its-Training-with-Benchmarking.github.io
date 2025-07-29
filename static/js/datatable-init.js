@@ -148,7 +148,7 @@ $(function() {
           <div class="legend-item"><span class="legend-box box-ar"></span>PGD (AR)</div>
           <div class="legend-item"><span class="legend-box box-pr"></span>Corr_* (PR)</div>
         </div>`;
-      $(this.table().container()).find('.top-controls').prepend(legendHtml);
+      $( api.table().container() ).find('.top-controls').prepend(legendHtml);
     }
   });
 
@@ -239,7 +239,7 @@ $(function() {
           <div class="legend-item"><span class="legend-box box-ar"></span>ALP/CLP/KL-PGD/MART/PGD/TRADES</div>
           <div class="legend-item"><span class="legend-box box-pr"></span>CVaR & Corr_Uniform</div>
         </div>`;
-      $(this.table().container()).find('.top-controls').prepend(legendHtml);
+      $( api.table().container() ).find('.top-controls').prepend(legendHtml);
     }
   });
 
