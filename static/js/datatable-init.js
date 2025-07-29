@@ -5,7 +5,7 @@ $(function() {
   // ==== Leaderboard Table ====
   $('#leaderboard-table').DataTable({
     // 将 length + filter 放到自定义的 top-controls 容器中，方便插入 legend
-    dom: '<"top-controls"l<"table-legend">f>tip'
+    dom: '<"top-controls"l<"table-legend">f>tip',
     ajax: {
       url: 'static/src/data/prbench_table8.json',
       dataSrc: '',
@@ -155,7 +155,7 @@ $(function() {
 
   // ==== Performance Table ====
   $('#performance-table').DataTable({
-    dom: '<"top-controls"l<"table-legend">f>tip'
+    dom: '<"top-controls"l<"table-legend">f>tip',
     ajax: {
       url: 'static/src/data/prbench_table9.json',
       dataSrc: ''
