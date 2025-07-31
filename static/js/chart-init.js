@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     'KL-PGD':        'rgba(188,189,34,1)'    // yellow
   };
 
+  // —— 哪些 methods 要用虚线 —— 
+  const DASHED_METHODS = new Set(['ERM', 'Corr_Uniform', 'CVaR']);
+  const DASH_PATTERN   = [5, 3];
+
   // 按钮容器 & 标题
   const dsBtns     = document.getElementById('chart-ds-buttons');
   const modelBtns  = document.getElementById('chart-model-buttons');
@@ -102,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: GAMMAS.map(g => r?.pr[g] ?? null),
             borderColor: c,
             backgroundColor: c.replace(/1\)$/, '0.1)'),
+            borderDash: DASHED_METHODS.has(m) ? DASH_PATTERN : [],
             tension: 0.3
           };
         });
@@ -114,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: RHO_LEVELS.map(rho => r?.probacc[rho] ?? null),
             borderColor: c,
             backgroundColor: c.replace(/1\)$/, '0.1)'),
-            borderDash: [5,3],
+            borderDash: DASHED_METHODS.has(m) ? DASH_PATTERN : [],
             tension: 0.3
           };
         });
@@ -127,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data: GAMMAS.map(g => r?.ge_pr[g] ?? null),
             borderColor: c,
             backgroundColor: c.replace(/1\)$/, '0.1)'),
-            borderDash: [2,2],
+            borderDash: DASHED_METHODS.has(m) ? DASH_PATTERN : [],
             tension: 0.3
           };
         });
@@ -142,7 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
             plugins: {
               title: { display: true, text: title, font: { size: 16 } },
               legend: { position: 'bottom', labels: { boxWidth: 12 } },
-              zoom: { zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x'}, pan:{enabled:true,mode:'x'} }
+              zoom: {
+                zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+                pan:  { enabled: true, mode: 'x' }
+              }
             },
             scales: {
               x: { title: { display: true, text: xLabel } },
@@ -152,9 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 绘图
-        charts.push(new Chart(ctxPR,   makeConfig(GAMMAS, dsPR,   'PR(γ)%',            'Accuracy %',       'Perturbation Radius γ')));
-        charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%','Accuracy %',       'Perturbation Radius ρ')));
-        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS, dsGEPR, 'GEₚᵣ(γ)%',          'Generalisation Error %','Perturbation Radius γ')));
+        charts.push(new Chart(ctxPR,   makeConfig(GAMMAS,     dsPR,   'PR(γ)%',              'Accuracy %',             'Perturbation Radius γ')));
+        charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%', 'Accuracy %',             'Perturbation Radius ρ')));
+        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS,     dsGEPR, 'GEₚᵣ(γ)%',            'Generalisation Error %', 'Perturbation Radius γ')));
       });
 
       // 默认选中第一个 Dataset
