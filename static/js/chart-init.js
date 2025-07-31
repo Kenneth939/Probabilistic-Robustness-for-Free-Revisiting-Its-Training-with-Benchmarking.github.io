@@ -137,15 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
           };
         });
 
-        // 配置工厂
-        const makeConfig = (labels, datasets, title, yLabel, xLabel) => ({
+        // 配置工厂：将图表小标题移到 Y 轴标题
+        const makeConfig = (labels, datasets, yAxisTitle, xAxisTitle) => ({
           type: 'line',
           data: { labels, datasets },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              title: { display: true, text: title, font: { size: 16 } },
               legend: { position: 'bottom', labels: { boxWidth: 12 } },
               zoom: {
                 zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
@@ -153,16 +152,22 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             },
             scales: {
-              x: { title: { display: true, text: xLabel } },
-              y: { title: { display: true, text: yLabel } }
+              x: { title: { display: true, text: xAxisTitle } },
+              y: { title: { display: true, text: yAxisTitle } }
             }
           }
         });
 
-        // 绘图
-        charts.push(new Chart(ctxPR,   makeConfig(GAMMAS,     dsPR,   'PR(γ)%',              'Accuracy %',             'Perturbation Radius γ')));
-        charts.push(new Chart(ctxProb, makeConfig(RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%', 'Accuracy %',             'Perturbation Radius ρ')));
-        charts.push(new Chart(ctxGEPR, makeConfig(GAMMAS,     dsGEPR, 'GEₚᵣ(γ)%',            'Generalisation Error %', 'Perturbation Radius γ')));
+        // 绘图：将原来的 title 参数改成 y 轴标题
+        charts.push(new Chart(ctxPR,   makeConfig(
+          GAMMAS, dsPR,   'PR(γ)%',            'Perturbation Radius γ'
+        )));
+        charts.push(new Chart(ctxProb, makeConfig(
+          RHO_LEVELS, dsProb, 'ProbAcc(ρ,γ=0.03)%','Perturbation Radius ρ'
+        )));
+        charts.push(new Chart(ctxGEPR, makeConfig(
+          GAMMAS, dsGEPR, 'GEₚᵣ(γ)%',          'Perturbation Radius γ'
+        )));
       });
 
       // 默认选中第一个 Dataset
@@ -170,3 +175,4 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => console.error('unable to load data:', err));
 });
+
