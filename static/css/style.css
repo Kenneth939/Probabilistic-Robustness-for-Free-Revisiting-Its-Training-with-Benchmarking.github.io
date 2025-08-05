@@ -22,21 +22,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 全局容器铺满屏幕，最小左右内边距 */
+/* The global container spans the entire screen with minimal left and right padding */
 .container {
   max-width: 100% !important;
   padding: 0.5rem 0.5rem !important;
   margin: 0 auto;
 }
 
-/* 标题居中 */
+/* The title is centered */
 h1, h2, h3 {
   font-weight: 600;
   margin-bottom: 0.75rem;
   text-align: center;
 }
 
-/* 顶部导航 */
+/* Top navigation */
 nav {
   backdrop-filter: blur(20px);
   background: rgba(255,255,255,0.8);
@@ -98,10 +98,10 @@ nav {
 /* Figures Section */
 #figures .row {
   display: flex;
-  justify-content: center;   /* 整组居中 */
-  flex-wrap: nowrap;         /* 禁止换行 */
-  gap: 2rem;                 /* 两图之间留点距离 */
-  padding: 0 3rem;           /* 左右各多留 3rem */
+  justify-content: center;   /* The entire group is centered */
+  flex-wrap: nowrap;         /* Line breaks are prohibited */
+  gap: 2rem;                 /* Leave some distance between the two pictures */
+  padding: 0 3rem;           /* Leave an extra 3rem on each side */
 }
 
 #figures .row > div {
@@ -119,7 +119,7 @@ nav {
   object-fit: contain;
 }
 
-/* 筛选按钮组 */
+/* Filter button group */
 #filter-controls {
   text-align: center;
   margin: 1rem 0;
@@ -148,13 +148,13 @@ nav {
   color: #fff;
 }
 
-/* DataTables 包装器防横向滚动 */
+/* DataTables The wrapper is protected from lateral rolling */
 .dataTables_wrapper {
   width: 100%;
   overflow-x: hidden;
 }
 
-/* 全局搜索框 */
+/* Global search box */
 .dataTables_filter {
   text-align: right;
   margin-bottom: 0.75rem;
@@ -171,7 +171,7 @@ nav {
   margin-left: 0.5rem;
 }
 
-/* “Show X entries” 控件 */
+/* “Show X entries” control */
 .dataTables_length {
   display: flex;
   align-items: center;
@@ -191,7 +191,7 @@ nav {
   font-size: 0.9rem;
 }
 
-/* 信息文字 */
+/* Information text */
 .dataTables_info {
   margin: 0.5rem 0 1rem;
   font-size: 0.85rem;
@@ -199,7 +199,7 @@ nav {
   text-align: left;
 }
 
-/* 表格主体：完全铺满，极细字体和极小内边距 */
+/* Table body: Completely covered, extremely thin font and very small margins */
 #leaderboard-table {
   width: 100% !important;
   font-size: 0.65rem;
@@ -214,8 +214,8 @@ nav {
   border: none;
   color: var(--text-color);
   text-align: center;
-  white-space: normal;      /* 允许换行 */
-  word-break: break-word;    /* 换行断词 */
+  white-space: normal;      /* Allow line breaks */
+  word-break: break-word;    /* Break lines and break words */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -230,7 +230,7 @@ nav {
   background: rgba(255,255,255,0.5);
 }
 
-/* 分页 */
+/* paging */
 .dataTables_wrapper .pagination {
   display: flex;
   justify-content: center;
@@ -264,7 +264,7 @@ nav {
   pointer-events: none;
 }
 
-/* —— Performance Table 样式 —— */
+/* —— Performance Table  —— */
 #performance-table {
   width: 100% !important;
   font-size: 0.65rem;
@@ -274,7 +274,7 @@ nav {
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
-/* 单元格：极细字体、极小内边距，允许折行断词 */
+/* Cell: Extremely fine font, very small padding, and line breaks are allowed词 */
 #performance-table th,
 #performance-table td {
   padding: 0.2rem 0.1rem;
@@ -289,13 +289,13 @@ nav {
   line-height: normal;
 }
 
-/* 表头半透明毛玻璃背景 */
+/* The dial has a semi-transparent frosted glass background */
 #performance-table thead {
   background: rgba(255,255,255,0.4);
   backdrop-filter: blur(8px);
 }
 
-/* 悬停效果 */
+/* Hover effect */
 #performance-table tbody tr {
   transition: background 0.2s;
 }
@@ -303,13 +303,13 @@ nav {
   background: rgba(255,255,255,0.5);
 }
 
-/* 恢复 Performance 表格左右内边距，与 .container 保持一致 */
+/* Restore the left and right margins of the Performance table to be consistent with.container */
 #performance-table_wrapper {
   padding: 0 0.5rem;
   margin: 0 auto;
 }
 
-/* —— Performance 表格的按钮组 —— */
+/* —— The button group of the Performance table —— */
 #performance-filter-controls {
   text-align: center;
   margin: 1rem 0;
@@ -339,7 +339,7 @@ nav {
 }
 
 
-/* Abstract 美化 */
+/* Abstract beautify */
 #abstract p {
   margin-bottom: 1rem;
   font-size: 1rem;
@@ -377,7 +377,7 @@ nav {
 }
 
 
-/* —— 三图横排 & 固定高度 —— */
+/* —— Three-picture horizontal arrangement & fixed height —— */
 #chart-row {
   display: flex;
   gap: 1rem;
@@ -385,15 +385,15 @@ nav {
   margin-top: 2rem;
 }
 
-/* 每图占 1/3 宽度，且强制指定一个最小和固定高度 */
+/* Each figure takes up 1/3 of the width and a minimum and fixed height must be specified */
 .chart-item {
   flex: 1 1 calc(33.333% - 1rem);
   min-width: 240px;
-  height: 350px;       /* ← 这里调节你想要的“固定高度” */
-  position: relative;   /* 让 canvas 绝对填充 */
+  height: 350px;       
+  position: relative;   /* Make the canvas absolutely fill */
 }
 
-/* canvas 取消自动纵横比，撑满父容器 */
+/* Cancel the auto-aspect ratio of the canvas and fill up the parent container */
 .chart-item canvas {
   position: absolute;
   top: 0; left: 0;
@@ -401,16 +401,16 @@ nav {
   height: 100% !important;
 }
 
-/* —— Chart 标题 —— */
+/* —— Chart title —— */
 #chart-title {
-  text-align: center;              /* 居中 */
-  margin-bottom: 0.75rem;          /* 与其他模块间距一致 */
-  font-size: 1.25rem;              /* 对应 .h4 */
-  font-weight: 600;                /* 加粗 */
-  color: var(--primary-color);     /* 主色调 */
+  text-align: center;              
+  margin-bottom: 0.75rem;          /* The spacing is consistent with that of other modules */
+  font-size: 1.25rem;              /* Corresponding to.h4 */
+  font-weight: 600;                /* overstriking */
+  color: var(--primary-color);     /* dominant tone */
 }
 
-/* —— Dataset / Model 按钮组 —— */
+/* —— Dataset / Model button group —— */
 #chart-ds-buttons,
 #chart-model-buttons {
   display: inline-flex;
@@ -442,7 +442,7 @@ nav {
   color: #fff;
 }
 
-/* ==== 行背景色分类 ==== */
+/* ==== Classify the background color ==== */
 /* Leaderboard Table */
 #leaderboard-table .row-emr  { background: #ffffff !important; }
 #leaderboard-table .row-ar   { background: #f5f5f5 !important; }
@@ -453,7 +453,7 @@ nav {
 #performance-table .row-ar   { background: #f5f5f5 !important; }
 #performance-table .row-pr   { background: #cccccc !important; }
 
-/* ==== Legend 样式 ==== */
+/* ==== Legend style ==== */
 .table-legend {
   display: flex;
   align-items: center;
@@ -475,7 +475,7 @@ nav {
 .table-legend .box-ar  { background: #f5f5f5; }
 .table-legend .box-pr  { background: #cccccc; }
 
-/* 确保 Legend 和 Search 在同一行 */
+/* Make sure Legend and Search are on the same line*/
 .dataTables_wrapper .top-controls {
   display: flex;
   justify-content: space-between;
