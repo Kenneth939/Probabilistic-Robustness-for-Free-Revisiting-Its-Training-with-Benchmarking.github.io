@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const GAMMAS     = ['0.03', '0.08', '0.10', '0.12'];
   const RHO_LEVELS = ['0.10', '0.05', '0.01'];
 
-  // —— 为每个 method 定义固定颜色 —— 
+  // —— select a fixed color for each method —— 
   const COLOR_MAP = {
     'ERM':           'rgba(31,119,180,1)',   // blue
     'Corr_Uniform':  'rgba(255,127,14,1)',   // orange
@@ -18,27 +18,27 @@ document.addEventListener('DOMContentLoaded', () => {
     'KL-PGD':        'rgba(188,189,34,1)'    // yellow
   };
 
-  // —— 哪些 methods 要用虚线 —— 
+  // —— methods with a dotted line —— 
   const DASHED_METHODS = new Set(['ERM', 'Corr_Uniform', 'CVaR']);
   const DASH_PATTERN   = [5, 3];
 
-  // 按钮容器 & 标题
+  // button container & title
   const dsBtns     = document.getElementById('chart-ds-buttons');
   const modelBtns  = document.getElementById('chart-model-buttons');
   const titleEl    = document.getElementById('chart-title');
 
-  // Canvas 上下文
+  // Canvas context
   const ctxPR      = document.getElementById('chart-pr').getContext('2d');
   const ctxProb    = document.getElementById('chart-probacc').getContext('2d');
   const ctxGEPR    = document.getElementById('chart-gepr').getContext('2d');
 
-  // 当前图表实例，用于销毁
+  // Current chart instance, used for destruction
   const charts = [];
 
   fetch(DATA_URL)
     .then(res => res.json())
     .then(allData => {
-      // 1. 生成 Dataset 按钮
+      // 1. generate Dataset button
       const datasets = Array.from(new Set(allData.map(d => d.dataset)));
       datasets.forEach(ds => {
         const btn = document.createElement('button');
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dsBtns.appendChild(btn);
       });
 
-      // 2. 点击 Dataset → 生成 Model 按钮
+      // 2. clik Dataset → generate Model button
       dsBtns.addEventListener('click', e => {
         if (e.target.tagName !== 'BUTTON') return;
         dsBtns.querySelectorAll('button').forEach(b => b.classList.remove('active'));
@@ -70,13 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
           modelBtns.appendChild(mb);
         });
 
-        // 自动点击第一个 Model
+        // default: the first Model
         setTimeout(() => {
           modelBtns.querySelector('button')?.click();
         }, 0);
       });
 
-      // 3. 点击 Model → 更新标题 & 绘图
+      // 3. clik Model → update title & plot
       modelBtns.addEventListener('click', e => {
         if (e.target.tagName !== 'BUTTON') return;
         modelBtns.querySelectorAll('button').forEach(b => b.classList.remove('active'));
@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!selDS || !selModel) return;
 
-        // 销毁旧图
+        // Destroy old maps
         charts.splice(0).forEach(c => c.destroy());
 
-        // 筛选记录
+        // Filter records
         const recs = allData.filter(d => d.dataset === selDS && d.model === selModel);
         const methods = Array.from(new Set(recs.map(r => r.method)));
 
-        // 构造 three datasets
+        // structure three datasets
         const dsPR = methods.map(m => {
           const r = recs.find(r => r.method === m);
           const c = COLOR_MAP[m] || 'rgba(0,0,0,1)';
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           };
         });
 
-        // 配置工厂：将图表小标题移到 Y 轴标题
+        // Configure the plant
         const makeConfig = (labels, datasets, yAxisTitle, xAxisTitle) => ({
           type: 'line',
           data: { labels, datasets },
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        // 绘图：将原来的 title 参数改成 y 轴标题
+        // plot
         charts.push(new Chart(ctxPR,   makeConfig(
           GAMMAS, dsPR,   'PR(γ)%',            'Perturbation Radius γ'
         )));
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         )));
       });
 
-      // 默认选中第一个 Dataset
+      // default: the first Dataset
       dsBtns.querySelector('button')?.click();
     })
     .catch(err => console.error('unable to load data:', err));
