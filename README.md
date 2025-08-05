@@ -31,6 +31,7 @@ Live demo:
 https://<your-github-username>.github.io/PRBench
 
 ## Project Structure
+---
 PRBench/
 ├── index.html
 ├── paper.html
@@ -51,7 +52,7 @@ PRBench/
 │           ├── pic_loss_strategies.png
 │           └── pic_eval_metrics.png
 └── README.md
-
+---
 
 ## Contributing
 We welcome contributions! You can:
