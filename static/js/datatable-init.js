@@ -18,7 +18,7 @@ $(function() {
         console.error('Failed to load JSON:', xhr.status, thrown);
       }
     },
-    // 19 列定义，必须和 <thead> 一一对应
+    // 19 column definitions
     columns: [
       { data: 'dataset', defaultContent: '' },               // 0
       { data: 'model',   defaultContent: '' },               // 1
@@ -64,11 +64,11 @@ $(function() {
       }
     },
 
-    // ==== 初始化完成后插入按钮过滤 & legend ====
+    // Insert button filtering after initialization is complete & legend
     initComplete: function() {
       const api = this.api();
 
-      // 原有按钮过滤逻辑，但改为正则精确匹配
+      // Button Filtering Logic - Regular Expression Exact Match
       function makeButtons(vals, sel, colIdx) {
         const $wrap = $(sel).empty();
         $wrap.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
@@ -85,7 +85,7 @@ $(function() {
             // reset filter
             col.search('').draw();
           } else {
-            // 精确 regex 匹配
+            // exact regex map
             const esc = $.fn.dataTable.util.escapeRegex(val);
             col.search(`^${esc}$`, true, false).draw();
           }
@@ -96,7 +96,7 @@ $(function() {
       makeButtons(api.column(1).data().unique().sort().toArray(), '#model-buttons',   1);
       makeButtons(api.column(2).data().unique().sort().toArray(), '#method-buttons',  2);
 
-      // 插入 Legend 到 top-controls 容器最前面
+      // Insert Legend to the front of the top-controls container
       const legendHtml = `
         <div class="table-legend">
           <div class="legend-item"><span class="legend-box box-emr"></span>Neither AR nor PR</div>
@@ -121,39 +121,39 @@ $(function() {
       dataSrc: ''
     },
     columns: [
-      // 0–3 顶层字段
+      // 0–3 top-level fields
       { data: 'dataset', defaultContent: '' },
       { data: 'model',   defaultContent: '' },
       { data: 'method',  defaultContent: '' },
       { data: 'acc',     defaultContent: '' },
 
-      // AR 列
+      // AR columns
       { data: null, render: d => d.ar['PGD10'] },
       { data: null, render: d => d.ar['PGD20'] },
       { data: null, render: d => d.ar['CW20']  },
       { data: null, render: d => d.ar['AA']    },
 
-      // PR 列
+      // PR columns
       { data: null, render: d => d.pr['0.03']  },
       { data: null, render: d => d.pr['0.08']  },
       { data: null, render: d => d.pr['0.10']  },
       { data: null, render: d => d.pr['0.12']  },
 
-      // ProbAccPR 列
+      // ProbAccPR columns
       { data: null, render: d => d.probacc['0.10'] },
       { data: null, render: d => d.probacc['0.05'] },
       { data: null, render: d => d.probacc['0.01'] },
 
-      // GEAR 列
+      // GEAR columns
       { data: null, render: d => d.ge_ar['PGD20'] },
 
-      // GEPR 列
+      // GEPR columns
       { data: null, render: d => d.ge_pr['0.03'] },
       { data: null, render: d => d.ge_pr['0.08'] },
       { data: null, render: d => d.ge_pr['0.10'] },
       { data: null, render: d => d.ge_pr['0.12'] },
 
-      // 训练时间
+      // training time
       { data: null, render: d => d.time_s_per_ep }
     ],
 
@@ -174,7 +174,7 @@ $(function() {
     initComplete: function() {
       const api = this.api();
 
-      // 按钮过滤（精确匹配）
+      // Button filtering (exact match)
       function makeButtons(vals, sel, colIdx) {
         const $wrap = $(sel).empty();
         $wrap.append(`<button class="btn btn-sm me-1 active" data-col="${colIdx}" data-val="">All</button>`);
@@ -200,7 +200,7 @@ $(function() {
       makeButtons(api.column(1).data().unique().sort().toArray(), '#performance-model-buttons',   1);
       makeButtons(api.column(2).data().unique().sort().toArray(), '#performance-method-buttons',  2);
 
-      // 插入 Legend
+      // insert Legend
       const legendHtml = `
         <div class="table-legend">
           <div class="legend-item"><span class="legend-box box-emr"></span>Neither AR nor PR</div>
