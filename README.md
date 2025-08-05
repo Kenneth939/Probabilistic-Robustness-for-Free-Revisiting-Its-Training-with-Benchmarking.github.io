@@ -4,6 +4,7 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Tech Stack](#tech-stack) 
 - [Demo](#demo)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
@@ -21,6 +22,14 @@ PRBench is a comprehensive web-based benchmark for evaluating probabilistic robu
 - **Composite Summary**: Aggregated robustness scores over all datasets and architectures.  
 - **Responsive Design**: Mobile-friendly layout using Bootstrap and custom CSS.  
 - **Static & Easy to Deploy**: Pure HTML/CSS/JS, no backend required.
+
+## Tech Stack
+
+- **HTML5** & **CSS3** (Bootstrap 5)  
+- **JavaScript** (ES6+):  
+  - [jQuery](https://jquery.com/)  
+  - [DataTables](https://datatables.net/)  
+  - [Chart.js](https://www.chartjs.org/) & [chartjs-plugin-zoom](https://github.com/chartjs/chartjs-plugin-zoom)
 
 ## Demo
 
