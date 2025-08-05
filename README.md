@@ -17,7 +17,7 @@
 
 PRBench is a comprehensive web-based benchmark for evaluating probabilistic robustness (PR) and adversarial robustness (AR) of deep learning models across a range of training methods. It provides interactive leaderboards, performance tables, and visualizations to compare various methods on standardized datasets and perturbation settings.
 
-## Features
+## ✨ Features
 
 - **Interactive Leaderboards**: Filter by dataset, model, and method.  
 - **Performance Tables**: Metrics including clean accuracy, AR (PGD/C&W/Auto-Attack), PR, ProbAcc, generalization errors, and training time.  
@@ -26,7 +26,7 @@ PRBench is a comprehensive web-based benchmark for evaluating probabilistic robu
 - **Responsive Design**: Mobile-friendly layout using Bootstrap and custom CSS.  
 - **Static & Easy to Deploy**: Pure HTML/CSS/JS, no backend required.
 
-## Demo
+## 🌐 Demo
 
 ![Landing Page](static/src/images/pic1.png)
 
@@ -36,6 +36,8 @@ https://<your-github-username>.github.io/PRBench
 Installation
 Clone the repository
 
+## 🔧 Getting Started
+## 🚀 Usage
 # PRBench
 
 **Probabilistic Robustness Benchmark**
