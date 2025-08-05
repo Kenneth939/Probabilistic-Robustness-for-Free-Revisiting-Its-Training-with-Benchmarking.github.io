@@ -35,7 +35,6 @@ https://kenneth939.github.io/Probabilistic-Robustness-for-Free-Revisiting-Its-Tr
 ```csharp
 PRBench/
 ├── index.html
-├── paper.html
 ├── static/
 │   ├── css/
 │   │   └── style.css
@@ -66,7 +65,6 @@ Scroll further for detailed AR/PR metrics and composite robustness summary.
 **Interactive Charts:**  
 Under “Select Dataset & Model”, choose your dataset/model to update the three line charts.
 
----
 ## Contributing
 We welcome contributions! You can:
 
