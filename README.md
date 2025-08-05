@@ -52,7 +52,18 @@ PRBench/
 │           └── pic_eval_metrics.png
 └── README.md
 
+## 💡 Usage
 
+**Leaderboard:**  
+Scroll to the “Available Leaderboards” section, filter with the buttons, search globally.
+
+**Performance Table:**  
+Scroll further for detailed AR/PR metrics and composite robustness summary.
+
+**Interactive Charts:**  
+Under “Select Dataset & Model”, choose your dataset/model to update the three line charts.
+
+---
 ## Contributing
 We welcome contributions! You can:
 
