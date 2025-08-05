@@ -78,5 +78,11 @@ Submit pull requests for enhancements or fixes.
 Share new leaderboard data or chart configurations.
 
 Please follow any existing CONTRIBUTING guidelines and adhere to our Code of Conduct if provided.
+## 🤝 Contributing
+
+1. Fork the repository  
+2. Create a feature branch:  
+   ```bash
+   git checkout -b feature/YourFeature
 
 
