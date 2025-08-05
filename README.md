@@ -6,6 +6,7 @@
 - [Features](#features)
 - [Demo](#demo)
 - [Project Structure](#project-structure)
+- [Usage](#usage)
 - [Contributing](#contributing)
 
 ## Introduction
@@ -52,7 +53,7 @@ PRBench/
 │           └── pic_eval_metrics.png
 └── README.md
 
-## 💡 Usage
+## Usage
 
 **Leaderboard:**  
 Scroll to the “Available Leaderboards” section, filter with the buttons, search globally.
