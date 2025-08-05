@@ -84,5 +84,11 @@ Please follow any existing CONTRIBUTING guidelines and adhere to our Code of Con
 2. Create a feature branch:  
    ```bash
    git checkout -b feature/YourFeature
-
-
+3.Commit your changes:
+    ```bash
+    git commit -m "Add YourFeature"
+4.Push to your branch:
+    ```bash
+    git push origin feature/YourFeature
+5.Open a Pull Request
+    
