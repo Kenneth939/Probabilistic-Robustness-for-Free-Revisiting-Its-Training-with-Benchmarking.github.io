@@ -7,11 +7,8 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -31,18 +28,41 @@ PRBench is a comprehensive web-based benchmark for evaluating probabilistic robu
 ![Landing Page](static/src/images/pic1.png)
 
 Live demo:  
-```txt
 https://<your-github-username>.github.io/PRBench
-Installation
-Clone the repository
 
-## 🔧 Getting Started
-## 🚀 Usage
-# PRBench
+## Project Structure
+PRBench/
+├── index.html
+├── paper.html
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   ├── datatable-init.js
+│   │   ├── chart-init.js
+│   │   └── scroll.js
+│   └── src/
+│       ├── data/
+│       │   ├── prbench_table8.json
+│       │   └── prbench_table9.json
+│       └── images/
+│           ├── pic1.png
+│           ├── pic2.png
+│           ├── pic_loss_strategies.png
+│           └── pic_eval_metrics.png
+└── README.md
 
-**Probabilistic Robustness Benchmark**
 
-PRBench is the first comprehensive, web-based benchmark for evaluating probabilistic robustness (PR) and adversarial robustness (AR) of deep learning models under a variety of perturbation types and magnitudes. It provides interactive leaderboards, performance tables, and charts to help you compare training methods across datasets, architectures, and robustness metrics.
+## Contributing
+We welcome contributions! You can:
+
+Open issues for bugs or feature requests.
+
+Submit pull requests for enhancements or fixes.
+
+Share new leaderboard data or chart configurations.
+
+Please follow any existing CONTRIBUTING guidelines and adhere to our Code of Conduct if provided.
 
 ---
 
