@@ -94,7 +94,7 @@
     in terms of clean accuracy (Acc.), PR(γ) and GEPR(γ=0.03) under various perturbation 
     distributions (Uniform, Gaussian, Laplace).
   </p>
-  <!-- 新增：三组按钮 -->
+  <!-- three sets of buttons -->
   <div id="filter-controls" class="mb-3">
     <div class="mb-2">
       <strong>Dataset: </strong>
@@ -110,7 +110,7 @@
     </div>
   </div>
 
-  <!-- 表格 -->
+  <!-- leaderboard table -->
   <table id="leaderboard-table"
          class="table table-striped table-bordered"
          style="width:100%">
@@ -141,7 +141,7 @@
   </table>
 </div>
 
-  <!-- Performance 表格说明 -->
+  <!-- Performance table introduction -->
 <div class="container">
   <p class="lead mt-4">
     Performance of AT and PR-targeted training methods across different datasets and models,
@@ -150,7 +150,7 @@
   </p>
 </div>
 
-  <!-- Performance 三组按钮 -->
+  <!-- Performance three sets of buttons -->
   <div id="performance-filter-controls" class="mb-3">
     <div class="mb-2">
       <strong>Dataset: </strong>
@@ -198,7 +198,7 @@
     <tbody></tbody>
   </table>
 
-  <!-- —— 数据集 & 模型 选择 —— -->
+  <!-- —— dataset & model selection —— -->
   <div class="container mt-5">
     <h2 class="text-center">Select Dataset & Model</h2>
     <div class="d-flex justify-content-center flex-wrap gap-3 my-3">
@@ -212,10 +212,8 @@
       </div>
     </div>
 
-    <!-- 图表标题 -->
+    <!-- line charts -->
     <div id="chart-title" class="text-center mb-3 h4"></div>
-    
-    <!-- —— 三张折线图画布 —— -->
     <div id="chart-row">
       <div class="chart-item">
         <canvas id="chart-pr"></canvas>
@@ -262,7 +260,7 @@
     </div>
   </footer>
   
-  <!-- JS 依赖：jQuery / DataTables -->
+  <!-- JS depends：jQuery / DataTables -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script
     src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
@@ -271,7 +269,7 @@
     src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js">
   </script>
 
-  <!-- DataTables 初始化脚本 -->
+  <!-- DataTables initialize -->
   <script src="static/js/datatable-init.js"></script>
   
   <!-- Chart.js -->
