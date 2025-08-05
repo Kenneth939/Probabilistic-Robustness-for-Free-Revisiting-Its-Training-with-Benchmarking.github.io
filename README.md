@@ -31,28 +31,30 @@ PRBench is a comprehensive web-based benchmark for evaluating probabilistic robu
 
 https://kenneth939.github.io/Probabilistic-Robustness-for-Free-Revisiting-Its-Training-with-Benchmarking.github.io/
 
+
 ## Project Structure
 
-```csharp
-PRBench/
-├── index.html
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   ├── datatable-init.js
-│   │   ├── chart-init.js
-│   │   └── scroll.js
-│   └── src/
-│       ├── data/
-│       │   ├── prbench_table8.json
-│       │   └── prbench_table9.json
-│       └── images/
-│           ├── pic1.png
-│           ├── pic2.png
-│           ├── pic_loss_strategies.png
-│           └── pic_eval_metrics.png
-└── README.md
+    PRBench/
+    ├── index.html
+    ├── paper.html
+    ├── static/
+    │   ├── css/
+    │   │   └── style.css
+    │   ├── js/
+    │   │   ├── datatable-init.js
+    │   │   ├── chart-init.js
+    │   │   └── scroll.js
+    │   └── src/
+    │       ├── data/
+    │       │   ├── prbench_table8.json
+    │       │   └── prbench_table9.json
+    │       └── images/
+    │           ├── pic1.png
+    │           ├── pic2.png
+    │           ├── pic_loss_strategies.png
+    │           └── pic_eval_metrics.png
+    └── README.md
+
 
 
 ## Usage
