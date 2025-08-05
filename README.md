@@ -70,7 +70,7 @@ Under “Select Dataset & Model”, choose your dataset/model to update the thre
 
 ## Contributing
 We welcome contributions! You can:
--Open issues for bugs or feature requests.
--Submit pull requests for enhancements or fixes.
--Share new leaderboard data or chart configurations.
--Please follow any existing CONTRIBUTING guidelines and adhere to our Code of Conduct if provided.
+- Open issues for bugs or feature requests.
+- Submit pull requests for enhancements or fixes.
+- Share new leaderboard data or chart configurations.
+- Please follow any existing CONTRIBUTING guidelines and adhere to our Code of Conduct if provided.
