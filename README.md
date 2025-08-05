@@ -45,7 +45,6 @@ https://kenneth939.github.io/Probabilistic-Robustness-for-Free-Revisiting-Its-Tr
 
     PRBench/
     ├── index.html
-    ├── paper.html
     ├── static/
     │   ├── css/
     │   │   └── style.css
