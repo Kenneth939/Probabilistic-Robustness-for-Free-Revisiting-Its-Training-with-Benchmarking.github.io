@@ -36,70 +36,53 @@ https://<your-github-username>.github.io/PRBench
 Installation
 Clone the repository
 
-bash
-复制
-编辑
-git clone https://github.com/<your-github-username>/PRBench.git
-cd PRBench
-(Optional) Install a static server for local development:
+# PRBench
 
-bash
-复制
-编辑
-npm install -g serve
-Usage
-Serve Locally
+**Probabilistic Robustness Benchmark**
 
-bash
-复制
-编辑
-serve .
-# or
-python3 -m http.server 8000
-Open your browser at http://localhost:5000 (or :8000).
+PRBench is the first comprehensive, web-based benchmark for evaluating probabilistic robustness (PR) and adversarial robustness (AR) of deep learning models under a variety of perturbation types and magnitudes. It provides interactive leaderboards, performance tables, and charts to help you compare training methods across datasets, architectures, and robustness metrics.
 
-Deploy on GitHub Pages
+---
 
-Push your code to the main branch.
+## 🌐 Live Demo
 
-In your repository settings, enable GitHub Pages from the main branch.
+Explore the live demo here:
 
-Visit https://<your-github-username>.github.io/PRBench.
+[Open PRBench Demo](https://kenneth939.github.io/Probabilistic-Robustness-for-Free-Revisiting-Its-Training-with-Benchmarking.github.io/)
 
-Project Structure
-csharp
-复制
-编辑
-PRBench/
-├── index.html
-├── paper.html
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   ├── datatable-init.js
-│   │   ├── chart-init.js
-│   │   └── scroll.js
-│   └── src/
-│       ├── data/
-│       │   ├── prbench_table8.json
-│       │   └── prbench_table9.json
-│       └── images/
-│           ├── pic1.png
-│           ├── pic2.png
-│           ├── pic_loss_strategies.png
-│           └── pic_eval_metrics.png
-└── README.md
-Contributing
-Contributions are welcome! You can:
+---
 
-Submit issues or feature requests.
+## ✨ Features
 
-Open pull requests for bug fixes or enhancements.
+- **Interactive Leaderboard**  
+  Compare clean accuracy, PR(γ) under Uniform/Gaussian/Laplace noise, and generalization error across methods.
 
-Share new leaderboard data or visualizations.
+- **Performance Table**  
+  Drill down into adversarial attacks (PGD/C&W/Auto-Attack), PR, ProbAcc, generalization errors, and per-epoch training times.
 
-Please review any existing CONTRIBUTING guidelines and adhere to the Code of Conduct if provided.
+- **Dataset & Model Filters**  
+  Dynamically filter results by dataset, model, and method with precise button-based matching plus fuzzy global search.
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+- **Robustness Charts**  
+  Line charts of PR(γ)%, ProbAcc(ρ, γ=0.03)%, and GEPR(γ)% vs. perturbation radius for any dataset/model combination.
+
+- **Composite Robustness Scores**  
+  Aggregate multiple metrics (Acc., AR(PGD20), PR(γ), ProbAcc(ρ=0.05), GEAR(PGD20), GEPR(γ=0.08), training time) into a single overview.
+
+---
+
+## 🔧 Getting Started
+
+Click to open the live demo:
+
+[Open PRBench Demo](https://kenneth939.github.io/Probabilistic-Robustness-for-Free-Revisiting-Its-Training-with-Benchmarking.github.io/)
+
+---
+
+## 🚀 Usage
+
+1. **Clone the repo**  
+   ```bash
+   git clone https://github.com/kenneth939/Probabilistic-Robustness-for-Free-Revisiting-Its-Training-with-Benchmarking.github.io.git
+   cd Probabilistic-Robustness-for-Free-Revisiting-Its-Training-with-Benchmarking.github.io
+
